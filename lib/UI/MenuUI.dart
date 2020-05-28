@@ -6,7 +6,7 @@ class MenuLayout extends StatelessWidget {
     Icons.watch_later,
     Icons.library_books,
     Icons.book,
-    Icons.timer
+    Icons.calendar_today
   ];
 
 MenuLayout(){

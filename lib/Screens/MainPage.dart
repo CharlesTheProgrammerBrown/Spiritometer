@@ -14,9 +14,9 @@ class MainPage extends StatelessWidget {
             overflow: Overflow.visible,
             children: [
               Image(
-                  image: AssetImage('images/Pst_Chris.jpg'),
+                  image: AssetImage('assets/images/Pst_Chris.jpg'),
                   height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width,
+                  width: double.infinity,
                   fit: BoxFit.cover),
               Positioned(
                 bottom: -70,
@@ -25,7 +25,7 @@ class MainPage extends StatelessWidget {
                   backgroundColor: Color(0xFF398AE5), //Colors.deepPurpleAccent[400],
                   child: CircleAvatar(
                     radius: 72,
-                    backgroundImage: AssetImage('images/CHARLES BROWN.jpg'),
+                    backgroundImage: AssetImage('assets/images/CHARLES BROWN.jpg'),
                   ),
                 ),
               ),

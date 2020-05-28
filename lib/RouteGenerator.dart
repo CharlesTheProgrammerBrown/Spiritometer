@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './Screens/MainPage.dart';
 import './Screens/LoginScreen.dart';
+import './Screens/RegisterScreen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -12,7 +13,10 @@ class RouteGenerator {
             builder: (BuildContext context) => LoginScreen());
         break;
       case '/second':
-        return MaterialPageRoute(builder: (_) => MainPage());
+        return MaterialPageRoute(builder: (_) => RegisterScreen());
+
+      case '/third':
+      return MaterialPageRoute(builder: (_)=> MainPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

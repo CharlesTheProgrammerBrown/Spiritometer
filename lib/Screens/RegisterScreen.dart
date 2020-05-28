@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../UI/CustomInputField.dart';
-import '../Utilities/constants.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => LoginScreenState();
+  State<StatefulWidget> createState() => RegisterScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
-  bool _rememberMe = false;
+class RegisterScreenState extends State<RegisterScreen> {
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +44,13 @@ class LoginScreenState extends State<LoginScreen> {
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding:
-                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 60.0),
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       //SIGN IN AT TOP PAGE
                       Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'OpenSans',
@@ -65,56 +64,24 @@ class LoginScreenState extends State<LoginScreen> {
                       //needs to be loaded before, try init state
                       Image.asset(
                           'assets/images/logo_name_transparent copy.png',
-                          height: 130,
+                          height: 120,
                           width: double.infinity),
                       SizedBox(height: 10.0),
 
                       //INPUT FIELDS
                       //pass Icon,icon color & txt label & hint text to constructor
+                      CustomInputField(Icon(Icons.person, color: Colors.white),
+                          'First Name', 'Enter your Name'),
+                      CustomInputField(Icon(Icons.person, color: Colors.white),
+                          'Last Name', 'Enter your Last Name'),
                       CustomInputField(Icon(Icons.email, color: Colors.white),
                           'Email', 'Enter your Email'),
                       CustomInputField(Icon(Icons.lock, color: Colors.white),
-                          'Password', '******'),
+                          'Password', 'Enter your Password'),
+                      CustomInputField(Icon(Icons.lock, color: Colors.white),
+                          'Confirm Password', 'Confirm Password'),
 
-                      //Forgot Password
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: FlatButton(
-                            onPressed: null,
-                            child: Text(
-                              'Forgot Password',
-                              style: uiLabelStyle,
-                            )),
-                      ),
-                    
-                    //Remember me checkbox
-                      Container(
-                          height: 20,
-                          //color: Colors.yellow,
-                          child: Row(
-                            children: <Widget>[
-                              Theme(
-                                data: ThemeData(
-                                    unselectedWidgetColor: Colors.white),
-                                child: Checkbox(
-                                  value: _rememberMe,
-                                  checkColor: Colors.green[600],
-                                  activeColor: Colors.white,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Text(
-                                'Remember me',
-                                style: uiLabelStyle,
-                              ),
-                            ],
-                          )),
-
-                      //LOGIN button
+                           //Register button
                       Container(
                         //color:Colors.blue,
                         padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -123,6 +90,7 @@ class LoginScreenState extends State<LoginScreen> {
                         child: RaisedButton(
                           elevation: 5.0,
                           onPressed: () {
+                            //logs you in after registration
                             Navigator.of(context).pushNamed('/third');
                           },
                           padding: EdgeInsets.all(15.0),
@@ -131,7 +99,7 @@ class LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                           child: Text(
-                            'LOGIN',
+                            'REGISTER',
                             style: TextStyle(
                                 color: Color(0xFF527DAA),
                                 letterSpacing: 1.5,
@@ -142,27 +110,30 @@ class LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
-//Dont have account
+//Have account
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/second');
+                          //goes to first page when tapped
+                          Navigator.of(context).pushNamed('/');
                         },
                         child: RichText(
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Don\'t have an Account? ',
+                                text: 'Have an Account? ',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.w400),
+                                    fontWeight: FontWeight.w400
+                                    ),
                               ),
                               TextSpan(
-                                text: 'Sign Up',
+                                text: 'Sign In',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold
+                                    ),
                               ),
                             ],
                           ),
