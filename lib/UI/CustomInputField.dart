@@ -23,7 +23,7 @@ class CustomInputField extends StatelessWidget {
         Container(
           alignment: Alignment.centerLeft,
           decoration: uiBoxDecorationStyle,
-          height: 60,
+          height: 50,
 
           child: TextField(
             keyboardType: TextInputType.emailAddress,
