@@ -44,7 +44,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding:
-                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 50.0),
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 40.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -58,7 +58,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                             fontWeight: FontWeight.bold),
                       ),
 
-                      SizedBox(height: 12.0),
+                      SizedBox(height: 5.0),
 
                       //LOGO
                       //needs to be loaded before, try init state
@@ -66,14 +66,12 @@ class RegisterScreenState extends State<RegisterScreen> {
                           'assets/images/logo_name_transparent copy.png',
                           height: 120,
                           width: double.infinity),
-                      SizedBox(height: 10.0),
+                      SizedBox(height: 1.0),
 
                       //INPUT FIELDS
                       //pass Icon,icon color & txt label & hint text to constructor
                       CustomInputField(Icon(Icons.person, color: Colors.white),
-                          'First Name', 'Enter your Name'),
-                      CustomInputField(Icon(Icons.person, color: Colors.white),
-                          'Last Name', 'Enter your Last Name'),
+                          'Name', 'Name Surname'),
                       CustomInputField(Icon(Icons.email, color: Colors.white),
                           'Email', 'Enter your Email'),
                       CustomInputField(Icon(Icons.lock, color: Colors.white),
@@ -84,7 +82,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                            //Register button
                       Container(
                         //color:Colors.blue,
-                        padding: EdgeInsets.symmetric(vertical: 25.0),
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
 
                         width: double.infinity,
                         child: RaisedButton(
