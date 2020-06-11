@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Screens/RegisterScreen.dart';
+import 'package:spiritometer/Screens/Authenticate/RegisterScreen.dart';
+
 
 class MenuLayout extends StatelessWidget {
   final titles = ['PRAYER', 'RHAPSODY OF REALITIES', 'BIBLE STUDY', 'SCHEDULER'];
