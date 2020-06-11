@@ -5,8 +5,9 @@ class CustomInputField extends StatelessWidget {
   final String hintTxt;
   final String labelTxt;
   final Icon icon;
+  final bool obscureTxt;
 
-  CustomInputField(this.icon, this.labelTxt, this.hintTxt);
+  CustomInputField(this.icon, this.labelTxt, this.hintTxt,this.obscureTxt);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,7 @@ class CustomInputField extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: icon,
                           ),*/
-        Text(labelTxt, 
-        style:uiLabelStyle),
+        Text(labelTxt,style: uiLabelStyle,),
         SizedBox(height:10),
         Container(
           alignment: Alignment.centerLeft,
@@ -26,6 +26,8 @@ class CustomInputField extends StatelessWidget {
           height: 50,
 
           child: TextField(
+            onChanged: (val){},
+            obscureText: obscureTxt,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white,
              fontFamily: 'OpenSans'),
