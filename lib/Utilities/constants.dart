@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 final uiHintTextStyle = TextStyle(
-  color:Colors.white54,
+  color:Colors.white60,
   fontFamily:'OpenSans',
 );
 
