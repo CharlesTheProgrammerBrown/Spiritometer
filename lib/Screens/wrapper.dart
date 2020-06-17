@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Authenticate/authenticate.dart';
-import 'package:spiritometer/Screens/Home/Home.dart';
+//import 'package:spiritometer/Screens/Home/Home.dart';
 
 //wrapper widget listens to state of Authentication
 //whether user is signed in or not

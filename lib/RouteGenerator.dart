@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import './Screens/Home/Home.dart';
 //import './Screens/LoginScreen.dart';
-import './Screens/Authenticate/LoginScreen.dart';
+//import './Screens/Authenticate/LoginScreen.dart';
 import './Screens/Authenticate/RegisterScreen.dart';
 
 class RouteGenerator {

@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spiritometer/UI/CustomInputField.dart';
+//import 'package:spiritometer/UI/CustomInputField.dart';
+import 'package:spiritometer/Utilities/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
+  final Function toggleViewResult;
+
+  RegisterScreen({this.toggleViewResult});
+  
   @override
   State<StatefulWidget> createState() => RegisterScreenState();
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
- 
+  
+  final _formKey =GlobalKey<FormState>();
+
+
+//txt field state
+  String name = '';
+  String email = '';
+  String password = '';
+  String confirmPas = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +82,181 @@ class RegisterScreenState extends State<RegisterScreen> {
                           width: double.infinity),
                       SizedBox(height: 1.0),
 
-                      //INPUT FIELDS
+                      Form(
+
+                        key: _formKey,
+                                              child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            /*Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: icon,
+                            ),*/
+
+                            //Full Name Custom Field
+                            Text('Full Name', style: uiLabelStyle),
+                            SizedBox(height: 8),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                //track what the user is typing
+                                //func to take val of form field at that particular time
+                                
+                                //if field empty return string help txt else null
+                                validator: (val) => val.isEmpty ? 'Enter Name': null,
+
+                                //track what the user is typing
+                                onChanged: (val) {
+                                  setState(() {
+                                    name = val;
+                                  });
+                                },
+                                obscureText: false,
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Name Surname',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.person, color: Colors.white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+
+                            // Email Custom field
+                            Text('Email', style: uiLabelStyle),
+                            SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                //track what the user is typing
+                                //func to take val of form field at that particular time
+                                
+                                //if field empty return string help txt else null
+                                validator:(val)=> val.isEmpty? 'Enter an email':null,
+
+                                //track what the user is typing
+                                onChanged: (val) {
+                                  setState(() {
+                                    email = val;
+                                  });
+                                },
+                                obscureText: false,
+                                keyboardType: TextInputType.emailAddress,
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Enter your Email',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.email, color: Colors.white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+
+                            // Password Custom field
+                            Text('Password', style: uiLabelStyle),
+                            SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                //track what the user is typing
+                                //func to take val of form field at that particular time
+                                
+                                //if field empty return string help txt else null
+                                validator:(val)=> val.length < 8 ? 'Password must have at least 8 characters':null,
+
+                                //track what the user is typing
+                                onChanged: (val) {
+                                  setState(() {
+                                    password = val;
+                                  });
+                                },
+                                obscureText: true,
+                                keyboardType: TextInputType.visiblePassword,
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Enter your Password',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+
+                            // Confirm Password Custom field
+                            Text('Confirm Password', style: uiLabelStyle),
+                            SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                //track what the user is typing
+                                //func to take val of form field at that particular time
+                                
+                                //if field empty return string help txt else null
+                                validator:(val)=> val==password? null:'Passwords do not match',
+                                onChanged: (val) {
+                                  setState(() {
+                                    confirmPas = val;
+                                    /*   check if confirmPass is same as password
+                                         if (confirmPas == password) {}
+                                    */
+                                  });
+                                },
+                                obscureText: true,
+                                keyboardType: TextInputType.visiblePassword,
+                                style: TextStyle(
+                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Confirm your Password',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.white)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 9,
+                            )
+                          ],
+                        ),
+                      ),
+
+                      /*                CUSTOM INPUT FIELDS CLASS
+
                       //pass Icon,icon color & txt label & hint text to constructor
+
                       CustomInputField(Icon(Icons.person, color: Colors.white),
                           'Name', 'Name Surname',false),
                       CustomInputField(Icon(Icons.email, color: Colors.white),
@@ -78,8 +265,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                           'Password', 'Enter your Password',true),
                       CustomInputField(Icon(Icons.lock, color: Colors.white),
                           'Confirm Password', 'Confirm Password',true),
+                */
 
-                           //Register button
+                      //Register button
                       Container(
                         //color:Colors.blue,
                         padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -87,9 +275,16 @@ class RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         child: RaisedButton(
                           elevation: 5.0,
-                          onPressed: () {
-                            //logs you in after registration
-                            Navigator.of(context).pushNamed('/third');
+                          onPressed: () async{
+                            /*logs you in after registration
+                            Navigator.of(context).pushNamed('/third'); */
+                            if(_formKey.currentState.validate())
+                            {
+                              print(email);
+                              print(password);
+                            }
+
+
                           },
                           padding: EdgeInsets.all(15.0),
                           color: Colors.white,
@@ -97,7 +292,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                           child: Text(
-                            'REGISTER',
+                            'SIGN UP',
                             style: TextStyle(
                                 color: Color(0xFF527DAA),
                                 letterSpacing: 1.5,
@@ -112,7 +307,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                       GestureDetector(
                         onTap: () {
                           //goes to first page when tapped
-                          Navigator.of(context).pushNamed('/');
+                         // Navigator.of(context).pushNamed('/');
+//toggles to the opposite state- login
+                          widget.toggleViewResult();
                         },
                         child: RichText(
                           text: TextSpan(
@@ -122,16 +319,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.w400
-                                    ),
+                                    fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
                                 text: 'Sign In',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold
-                                    ),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),

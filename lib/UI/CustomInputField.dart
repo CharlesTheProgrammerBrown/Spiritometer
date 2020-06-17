@@ -6,8 +6,10 @@ class CustomInputField extends StatelessWidget {
   final String labelTxt;
   final Icon icon;
   final bool obscureTxt;
+ 
 
   CustomInputField(this.icon, this.labelTxt, this.hintTxt,this.obscureTxt);
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,11 @@ class CustomInputField extends StatelessWidget {
           height: 50,
 
           child: TextField(
-            onChanged: (val){},
+            //track what the user is typing 
+            onChanged: (val){
+              
+
+            },
             obscureText: obscureTxt,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.white,

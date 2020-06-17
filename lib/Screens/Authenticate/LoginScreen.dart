@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spiritometer/Utilities/constants.dart';
-import 'package:spiritometer/UI/CustomInputField.dart';
+//import 'package:spiritometer/UI/CustomInputField.dart';
+import 'package:spiritometer/Services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
+
+  final Function toggleViewResult;
+
+LoginScreen({this.toggleViewResult});
+
   @override
   State<StatefulWidget> createState() => LoginScreenState();
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  //store email and password from fields
+  String email = '';
+  String password = '';
+
+final AuthService _auth = AuthService(); 
+
   bool _rememberMe = false;
   @override
   Widget build(BuildContext context) {
@@ -70,12 +82,87 @@ class LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 10.0),
 
                       //INPUT FIELDS
-                      //pass Icon,icon color & txt label & hint text,hiding txt-true or false 
+                      //pass Icon,icon color & txt label & hint text,hiding txt-true or false
                       //to constructor
-                      CustomInputField(Icon(Icons.email, color: Colors.white),
-                          'Email', 'Enter your Email',false),
-                      CustomInputField(Icon(Icons.lock, color: Colors.white),
-                          'Password', 'Enter your Password',true),
+                      // CustomInputField(
+                      // Icon(Icons.email, color: Colors.white),
+                      // 'Email', 'Enter your Email',false),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          /*Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: icon,
+                          ),*/
+                          Text('Email', style: uiLabelStyle),
+                          SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: uiBoxDecorationStyle,
+                            height: 50,
+                            child: TextField(
+                              //track what the user is typing
+                              onChanged: (val) {
+                                setState(() {
+                                  email = val;
+                                });
+                              },
+                              obscureText: false,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: 'OpenSans'),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(top: 14.0),
+                                  hintText: 'Enter your Email',
+                                  hintStyle: uiHintTextStyle,
+                                  //fillColor: Colors.white,
+                                  //filled: true
+                                  prefixIcon:
+                                      Icon(Icons.email, color: Colors.white)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          // Password Custom field
+                          Text('Password', style: uiLabelStyle),
+                          SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: uiBoxDecorationStyle,
+                            height: 50,
+                            child: TextField(
+                              //track what the user is typing
+                              onChanged: (val) {
+                                setState(() {
+                                  password = val;
+                                });
+                              },
+                              obscureText: true,
+                              keyboardType: TextInputType.visiblePassword,
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: 'OpenSans'),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(top: 14.0),
+                                  hintText: 'Enter your Password',
+                                  hintStyle: uiHintTextStyle,
+                                  //fillColor: Colors.white,
+                                  //filled: true
+                                  prefixIcon:
+                                      Icon(Icons.lock, color: Colors.white)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
+
+                      // CustomInputField(Icon(Icons.lock, color: Colors.white),
+                      //   'Password', 'Enter your Password',true),
 
                       //Forgot Password
                       Container(
@@ -87,8 +174,8 @@ class LoginScreenState extends State<LoginScreen> {
                               style: uiLabelStyle,
                             )),
                       ),
-                    
-                    //Remember me checkbox
+
+                      //Remember me checkbox
                       Container(
                           height: 20,
                           //color: Colors.yellow,
@@ -123,8 +210,10 @@ class LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: RaisedButton(
                           elevation: 5.0,
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/third');
+                          onPressed: () async {
+                            print('$email - $password');
+                            await Navigator.of(context).pushNamed('/third');
+                            
                           },
                           padding: EdgeInsets.all(15.0),
                           color: Colors.white,
@@ -146,7 +235,12 @@ class LoginScreenState extends State<LoginScreen> {
 //Dont have account
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/second');
+                          //don't use route but an auto toggle
+                          //Navigator.of(context).pushNamed('/second');
+
+                         //go to opposite state of this toggleView- login
+                         widget.toggleViewResult();
+
                         },
                         child: RichText(
                           text: TextSpan(
@@ -155,14 +249,14 @@ class LoginScreenState extends State<LoginScreen> {
                                 text: 'Don\'t have an Account? ',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.0,
+                                    fontSize: 19.0,
                                     fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
                                 text: 'Sign Up',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.0,
+                                    fontSize: 20.0,
                                     fontWeight: FontWeight.bold),
                               ),
                             ],
