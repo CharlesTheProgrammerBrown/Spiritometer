@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spiritometer/Screens/Authenticate/authenticate.dart';
+import 'package:spiritometer/Screens/Home/Home.dart';
+import 'package:spiritometer/models/user.dart';
 //import 'package:spiritometer/Screens/Home/Home.dart';
 
 //wrapper widget listens to state of Authentication
@@ -10,6 +13,9 @@ class Wrapper  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //dynamically returns home screen or authentication
-    return Authenticate();
+    final user = Provider.of<User>(context);
+
+    
+    return user==null? Authenticate() : Home();
   }
 }
