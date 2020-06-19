@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spiritometer/Services/auth.dart';
 //import 'package:spiritometer/UI/CustomInputField.dart';
 import 'package:spiritometer/Utilities/constants.dart';
 
@@ -7,21 +8,21 @@ class RegisterScreen extends StatefulWidget {
   final Function toggleViewResult;
 
   RegisterScreen({this.toggleViewResult});
-  
+
   @override
   State<StatefulWidget> createState() => RegisterScreenState();
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-  
-  final _formKey =GlobalKey<FormState>();
-
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
 //txt field state
   String name = '';
   String email = '';
   String password = '';
   String confirmPas = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +84,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 1.0),
 
                       Form(
-
                         key: _formKey,
-                                              child: Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             /*Padding(
@@ -103,9 +103,10 @@ class RegisterScreenState extends State<RegisterScreen> {
                               child: TextFormField(
                                 //track what the user is typing
                                 //func to take val of form field at that particular time
-                                
+
                                 //if field empty return string help txt else null
-                                validator: (val) => val.isEmpty ? 'Enter Name': null,
+                                validator: (val) =>
+                                    val.isEmpty ? 'Enter Name' : null,
 
                                 //track what the user is typing
                                 onChanged: (val) {
@@ -116,7 +117,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: false,
                                 keyboardType: TextInputType.text,
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(top: 14.0),
@@ -124,8 +126,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     hintStyle: uiHintTextStyle,
                                     //fillColor: Colors.white,
                                     //filled: true
-                                    prefixIcon:
-                                        Icon(Icons.person, color: Colors.white)),
+                                    prefixIcon: Icon(Icons.person,
+                                        color: Colors.white)),
                               ),
                             ),
                             SizedBox(
@@ -142,9 +144,10 @@ class RegisterScreenState extends State<RegisterScreen> {
                               child: TextFormField(
                                 //track what the user is typing
                                 //func to take val of form field at that particular time
-                                
+
                                 //if field empty return string help txt else null
-                                validator:(val)=> val.isEmpty? 'Enter an email':null,
+                                validator: (val) =>
+                                    val.isEmpty ? 'Enter an email' : null,
 
                                 //track what the user is typing
                                 onChanged: (val) {
@@ -155,7 +158,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: false,
                                 keyboardType: TextInputType.emailAddress,
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(top: 14.0),
@@ -181,9 +185,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                               child: TextFormField(
                                 //track what the user is typing
                                 //func to take val of form field at that particular time
-                                
+
                                 //if field empty return string help txt else null
-                                validator:(val)=> val.length < 8 ? 'Password must have at least 8 characters':null,
+                                validator: (val) => val.length < 8
+                                    ? 'Password must have at least 8 characters'
+                                    : null,
 
                                 //track what the user is typing
                                 onChanged: (val) {
@@ -194,7 +200,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: true,
                                 keyboardType: TextInputType.visiblePassword,
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(top: 14.0),
@@ -220,9 +227,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                               child: TextFormField(
                                 //track what the user is typing
                                 //func to take val of form field at that particular time
-                                
+
                                 //if field empty return string help txt else null
-                                validator:(val)=> val==password? null:'Passwords do not match',
+                                validator: (val) => val == password
+                                    ? null
+                                    : 'Passwords do not match',
                                 onChanged: (val) {
                                   setState(() {
                                     confirmPas = val;
@@ -234,7 +243,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: true,
                                 keyboardType: TextInputType.visiblePassword,
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'OpenSans'),
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.only(top: 14.0),
@@ -275,16 +285,19 @@ class RegisterScreenState extends State<RegisterScreen> {
                         width: double.infinity,
                         child: RaisedButton(
                           elevation: 5.0,
-                          onPressed: () async{
+                          onPressed: () async {
                             /*logs you in after registration
                             Navigator.of(context).pushNamed('/third'); */
-                            if(_formKey.currentState.validate())
-                            {
-                              print(email);
-                              print(password);
+                            if (_formKey.currentState.validate()) {
+                              dynamic result =
+                                  await _auth.registerWithEmailAndPassword(
+                                      email, password);
+                              if (result == null) {
+                                setState(() {
+                                  error = 'An error occured while registering.';
+                                });
+                              }
                             }
-
-
                           },
                           padding: EdgeInsets.all(15.0),
                           color: Colors.white,
@@ -302,12 +315,17 @@ class RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14),
+                      ),
 
 //Have account
                       GestureDetector(
                         onTap: () {
                           //goes to first page when tapped
-                         // Navigator.of(context).pushNamed('/');
+                          // Navigator.of(context).pushNamed('/');
 //toggles to the opposite state- login
                           widget.toggleViewResult();
                         },
