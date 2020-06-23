@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Utilities/constants.dart';
+import '../Shared/constants.dart';
 
 class CustomInputField extends StatelessWidget {
   final String hintTxt;

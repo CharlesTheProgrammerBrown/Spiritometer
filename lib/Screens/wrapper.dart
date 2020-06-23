@@ -14,7 +14,6 @@ class Wrapper  extends StatelessWidget {
   Widget build(BuildContext context) {
     //dynamically returns home screen or authentication
     final user = Provider.of<User>(context);
-
     
     return user==null? Authenticate() : Home();
   }

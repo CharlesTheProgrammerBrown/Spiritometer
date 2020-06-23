@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spiritometer/Services/auth.dart';
 //import 'package:spiritometer/UI/CustomInputField.dart';
-import 'package:spiritometer/Utilities/constants.dart';
+import 'package:spiritometer/Shared/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function toggleViewResult;
@@ -294,7 +294,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                                       email, password);
                               if (result == null) {
                                 setState(() {
-                                  error = 'An error occured while registering.';
+                                  error =
+                                      'An error occurred while registering.';
                                 });
                               }
                             }
