@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spiritometer/Utilities/constants.dart';
+import 'package:spiritometer/Shared/constants.dart';
 //import 'package:spiritometer/UI/CustomInputField.dart';
 import 'package:spiritometer/Services/auth.dart';
+import 'package:spiritometer/Shared/loading.dart';
 
 class LoginScreen extends StatefulWidget {
-
   final Function toggleViewResult;
 
-LoginScreen({this.toggleViewResult});
+  LoginScreen({this.toggleViewResult});
 
   @override
   State<StatefulWidget> createState() => LoginScreenState();
@@ -18,13 +18,18 @@ class LoginScreenState extends State<LoginScreen> {
   //store email and password from fields
   String email = '';
   String password = '';
+  String error = '';
 
-final AuthService _auth = AuthService(); 
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   bool _rememberMe = false;
+  bool loading = false;
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading? Loading(): Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -87,78 +92,87 @@ final AuthService _auth = AuthService();
                       // CustomInputField(
                       // Icon(Icons.email, color: Colors.white),
                       // 'Email', 'Enter your Email',false),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          /*Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: icon,
-                          ),*/
-                          Text('Email', style: uiLabelStyle),
-                          SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            decoration: uiBoxDecorationStyle,
-                            height: 50,
-                            child: TextField(
-                              //track what the user is typing
-                              onChanged: (val) {
-                                setState(() {
-                                  email = val;
-                                });
-                              },
-                              obscureText: false,
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'OpenSans'),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(top: 14.0),
-                                  hintText: 'Enter your Email',
-                                  hintStyle: uiHintTextStyle,
-                                  //fillColor: Colors.white,
-                                  //filled: true
-                                  prefixIcon:
-                                      Icon(Icons.email, color: Colors.white)),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            /*Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: icon,
+                            ),*/
+                            Text('Email', style: uiLabelStyle),
+                            SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                validator: (val) =>
+                                    val.isEmpty ? 'Enter email' : null,
+                                //track what the user is typing
+                                onChanged: (val) {
+                                  setState(() {
+                                    email = val;
+                                  });
+                                },
+                                obscureText: false,
+                                keyboardType: TextInputType.emailAddress,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Enter your Email',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.email, color: Colors.white)),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                            SizedBox(
+                              height: 10,
+                            ),
 
-                          // Password Custom field
-                          Text('Password', style: uiLabelStyle),
-                          SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            decoration: uiBoxDecorationStyle,
-                            height: 50,
-                            child: TextField(
-                              //track what the user is typing
-                              onChanged: (val) {
-                                setState(() {
-                                  password = val;
-                                });
-                              },
-                              obscureText: true,
-                              keyboardType: TextInputType.visiblePassword,
-                              style: TextStyle(
-                                  color: Colors.white, fontFamily: 'OpenSans'),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(top: 14.0),
-                                  hintText: 'Enter your Password',
-                                  hintStyle: uiHintTextStyle,
-                                  //fillColor: Colors.white,
-                                  //filled: true
-                                  prefixIcon:
-                                      Icon(Icons.lock, color: Colors.white)),
+                            // Password Custom field
+                            Text('Password', style: uiLabelStyle),
+                            SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: uiBoxDecorationStyle,
+                              height: 50,
+                              child: TextFormField(
+                                validator: (val) =>
+                                    val.isEmpty ? 'Enter Password' : null,
+                                //track what the user is typing
+                                onChanged: (val) {
+                                  setState(() {
+                                    password = val;
+                                  });
+                                },
+                                obscureText: true,
+                                keyboardType: TextInputType.visiblePassword,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans'),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top: 14.0),
+                                    hintText: 'Enter your Password',
+                                    hintStyle: uiHintTextStyle,
+                                    //fillColor: Colors.white,
+                                    //filled: true
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.white)),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
                       ),
 
                       // CustomInputField(Icon(Icons.lock, color: Colors.white),
@@ -168,11 +182,12 @@ final AuthService _auth = AuthService();
                       Container(
                         alignment: Alignment.centerRight,
                         child: FlatButton(
-                            onPressed: null,
-                            child: Text(
-                              'Forgot Password',
-                              style: uiLabelStyle,
-                            )),
+                          onPressed: null,
+                          child: Text(
+                            'Forgot Password',
+                            style: uiLabelStyle,
+                          ),
+                        ),
                       ),
 
                       //Remember me checkbox
@@ -211,10 +226,27 @@ final AuthService _auth = AuthService();
                         child: RaisedButton(
                           elevation: 5.0,
                           onPressed: () async {
-                            print('$email - $password');
-                            await Navigator.of(context).pushNamed('/third');
-                            
+                            //print('$email - $password');
+                            if (_formKey.currentState.validate()) {
+//show loading screen
+setState(() {
+  loading = true;
+  
+});
+
+                              dynamic result = await _auth
+                                  .signInWithEmailAndPassword(email, password);
+                              if (result == null) {
+                                setState(() {
+                                  error = 'An error occurred while signing in.';
+                                  loading =false;
+                                });
+                              }
+                            }
                           },
+                          // _auth.signInEmail(email, password);
+                          //await Navigator.of(context).pushNamed('/third');
+
                           padding: EdgeInsets.all(15.0),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -238,9 +270,8 @@ final AuthService _auth = AuthService();
                           //don't use route but an auto toggle
                           //Navigator.of(context).pushNamed('/second');
 
-                         //go to opposite state of this toggleView- login
-                         widget.toggleViewResult();
-
+                          //go to opposite state of this toggleView- login
+                          widget.toggleViewResult();
                         },
                         child: RichText(
                           text: TextSpan(
