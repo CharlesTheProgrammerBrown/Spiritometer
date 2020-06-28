@@ -11,10 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
-      //stream to listen 2 & expctd data
+      //stream to listen for  expctd data
           value:AuthService().user,
           //pass on stream to all children widget
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
           initialRoute: '/', onGenerateRoute: RouteGenerator.generateRoute
           //home: LoginScreen(),
           ),
