@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spiritometer/Screens/Pages/PrayNow.dart';
+import 'package:spiritometer/Screens/Pages/ROR.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import './Screens/Home/Home.dart';
 //import './Screens/LoginScreen.dart';
@@ -15,11 +17,18 @@ class RouteGenerator {
           //made wrapper the root route
             builder: (BuildContext context) => Wrapper());
         break;
-      case '/second':
-        return MaterialPageRoute(builder: (_) => RegisterScreen());
+      case '/prayNow':
+        return MaterialPageRoute(builder: (_) => PrayNow());
 
-      case '/third':
-      return MaterialPageRoute(builder: (_)=> Home());
+      case '/RoR':
+      return MaterialPageRoute(builder: (_)=> RoR());
+
+       case '/bibleStudy':
+      return MaterialPageRoute(builder: (_)=> PrayNow());
+
+       case '/schedule':
+      return MaterialPageRoute(builder: (_)=> PrayNow());
+
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
