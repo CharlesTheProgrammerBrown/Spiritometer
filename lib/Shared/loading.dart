@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -21,7 +22,14 @@ class Loading extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: SpinKitChasingDots(color: Colors.red, size: 50.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 150.0),
+              Image.asset('assets/images/logo_name_transparent copy.png',
+                  height: 130, width: double.infinity),
+              SpinKitChasingDots(color: Colors.red, size: 90.0),
+            ],
+          ),
         ));
   }
 }
