@@ -35,19 +35,4 @@ lib/generated_plugin_registrant.dart
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
-assets/images/CHARLES BROWN.jpg
-assets/images/CHARLES_BROWN.jpg
-assets/images/Pst_Chris.jpg
-lib/Utilities/constants.dart
-assets/images/CHARLES BROWN.jpg
-assets/images/CHARLES BROWN.jpg
-assets/images/Pst_Chris.jpg
-assets/images/CHARLES BROWN.jpg
-assets/images/pastor-chris_blue.jpg
-assets/images/pastor-chris.jpg
-assets/images/Pst_Chris.jpg
-lib/Utilities/constants.dart
-assets/images/CHARLES BROWN.jpg
-assets/images/pastor-chris.jpg
-assets/images/Pst_Chris.jpg
-assets/images/Pst_Chris.jpg
+
