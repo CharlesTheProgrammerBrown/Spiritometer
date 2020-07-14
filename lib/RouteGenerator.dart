@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/ROR.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
+import 'package:spiritometer/UI/CountDownTimer.dart';
 import './Screens/Home/Home.dart';
 //import './Screens/LoginScreen.dart';
 //import './Screens/Authenticate/LoginScreen.dart';
@@ -20,6 +21,9 @@ class RouteGenerator {
       case '/prayNow':
         return MaterialPageRoute(builder: (_) => PrayNow());
 
+       /* case '/countDownTimer':
+        return MaterialPageRoute(builder: (_) => CountDownTimer());
+*/
       case '/RoR':
       return MaterialPageRoute(builder: (_)=> RoR());
 
