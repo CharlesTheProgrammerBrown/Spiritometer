@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "985829927769",
+    "firebase_url": "https://spiritometer.firebaseio.com",
+    "project_id": "spiritometer",
+    "storage_bucket": "spiritometer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985829927769:android:3d816259b4ec85754d3a48",
+        "android_client_info": {
+          "package_name": "com.loveworld.spiritometer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985829927769-k2voesmflj22ucobenlaf2vc51u6hgg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2aXaXv5N6WONTK5xNZp6pMSp7K4foBeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "985829927769-k2voesmflj22ucobenlaf2vc51u6hgg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
