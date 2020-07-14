@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 
-
 class CountDownTimer extends StatefulWidget {
   final chosenTime;
   final path;
   CountDownTimer(this.chosenTime, this.path);
-
-  
 
   @override
   _CountDownTimerState createState() => _CountDownTimerState();
@@ -16,24 +13,22 @@ class CountDownTimer extends StatefulWidget {
 
 class _CountDownTimerState extends State<CountDownTimer>
     with TickerProviderStateMixin {
-
 //btn variables
-  String txt="Play";
-  bool btnPlay = false;  
-  
+  String txt = "Play";
+  bool btnPlay = false;
+
 //animation controller - button and container fill
   AnimationController controller;
   AnimationController btnController;
-  String get timerString 
-  {
+  String get timerString {
     Duration duration = controller.duration * controller.value;
     return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
 //audio varibales
-bool isPlaying = false;
-AudioPlayer audioPlayer;
- 
+  bool isPlaying = false;
+  AudioPlayer audioPlayer;
+
 
 
   @override
@@ -45,6 +40,14 @@ AudioPlayer audioPlayer;
       duration: Duration(seconds: widget.chosenTime),
     );
 
+    controller.addStatusListener((status) {
+     if (status== AnimationStatus.dismissed)
+     {
+       endProcess();
+       Navigator.of(context).pop();
+     }
+    });
+
     btnController = AnimationController(
       duration: Duration(milliseconds: 100),
       vsync: this,
@@ -53,13 +56,20 @@ AudioPlayer audioPlayer;
     audioPlayer = AudioPlayer();
   }
 
+@override
+  void dispose() {
+    controller.dispose();
+    btnController.dispose();
+    audioPlayer.dispose();
+    super.dispose();
+  }
 //debug for audio
-final String error =   'Error occurred in playing from storage';
-final String success = 'Process Success';
+  final String error = 'Error occurred in playing from storage';
+  final String success = 'Process Success';
 
 
-
-playAudioFromLocalStorage(path) async {
+  playAudioFromLocalStorage(path) async {
+    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
     int response = await audioPlayer.play(path, isLocal: true);
 
     response == 1 ? print('$success') : print('$error');
@@ -82,6 +92,15 @@ playAudioFromLocalStorage(path) async {
         : print('$error -in stopping');
   }
 
+  endProcess() {
+    print('End all processes');
+    stopAudio();
+    controller.reset();
+    btnController.reset();
+    setState(() {
+      txt = "Play";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,55 +164,50 @@ playAudioFromLocalStorage(path) async {
                                     ],
                                   ),
                                 ),
-                               
                               ],
                             ),
                           ),
                         ),
                       ),
-                       FloatingActionButton.extended(
-                                  //color: Colors.white,
-                                  //iconSize: 70,
-                                  icon: AnimatedIcon(
-                                      icon: AnimatedIcons.play_pause,
-                                      progress: btnController),
-                                  onPressed: () {
-                                     isPlaying =!isPlaying;
-                                    isPlaying? playAudioFromLocalStorage(widget.path):pauseAudio();
-        
-                                       btnPlay =!btnPlay;
-                                       btnPlay? btnController.forward() :btnController.reverse();
-                                     
-                                   
-                                     
-                                    if (controller.isAnimating) {
-                                      controller.stop();
-                                      setState(() {
-                                        //txt ="PLAY";
-                                      });
-                                      
-                                      //btnController.forward();
-                                    } else 
-                                    if(!controller.isAnimating){
-                                      controller.reverse(
-                                          from: controller.value == 0.0
-                                              ? 1.0
-                                              : controller.value);
-                                              setState(() {
-                                                txt="PAUSE";
-                                              });
-                                              
-                                      //btnController.reverse();
+                      FloatingActionButton.extended(
+                        //color: Colors.white,
+                        //iconSize: 70,
+                        icon: AnimatedIcon(
+                            icon: AnimatedIcons.play_pause,
+                            progress: btnController),
+                        onPressed: () {
+                          isPlaying = !isPlaying;
+                          isPlaying
+                              ? playAudioFromLocalStorage(widget.path)
+                              : pauseAudio();
 
-                                      if(controller.isCompleted){
-                                        stopAudio();
+                          btnPlay = !btnPlay;
+                          btnPlay
+                              ? btnController.forward()
+                              : btnController.reverse();
 
-                                      }
-                                    }
-                                  },
-                                   label: Text(txt),
-                                    
-                                ),
+                          if (controller.isAnimating) {
+                            controller.stop();
+                            setState(() {
+                              txt = "PLAY";
+                            });
+
+                            //btnController.forward();
+                          } else {
+                            controller.reverse(
+                                from: controller.value == 0.0
+                                    ? 1.0
+                                    : controller.value);
+                            setState(() {
+                              txt = "PAUSE";
+                            });
+
+                            //btnController.reverse();
+
+                          }
+                        },
+                        label: Text(txt),
+                      ),
                       /*AnimatedBuilder(
                           animation: controller,
                           builder: (context, child) {
@@ -214,7 +228,8 @@ playAudioFromLocalStorage(path) async {
                                 label: Text(
                                     controller.isAnimating ? "Pause" : "Play"));
                           }),*/
-                    ],
+                     
+                  IconButton(icon: Icon(Icons.stop), onPressed: (){endProcess();}, iconSize: 30, color: Colors.white,)  ],
                   ),
                 ),
               ],
@@ -222,11 +237,7 @@ playAudioFromLocalStorage(path) async {
           }),
     );
   }
-
- 
 }
-
- 
 
 class CustomTimerPainter extends CustomPainter {
   CustomTimerPainter({
@@ -261,4 +272,3 @@ class CustomTimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
-
