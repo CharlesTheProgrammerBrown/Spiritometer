@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spiritometer/Screens/Authenticate/RegisterScreen.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/ROR.dart';
 
