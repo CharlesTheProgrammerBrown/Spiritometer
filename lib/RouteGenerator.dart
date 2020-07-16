@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/ROR.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
-import 'package:spiritometer/UI/CountDownTimer.dart';
-import './Screens/Home/Home.dart';
+
 //import './Screens/LoginScreen.dart';
 //import './Screens/Authenticate/LoginScreen.dart';
-import './Screens/Authenticate/RegisterScreen.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
