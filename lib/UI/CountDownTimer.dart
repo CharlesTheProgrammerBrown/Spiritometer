@@ -1,10 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 
 class CountDownTimer extends StatefulWidget {
   final chosenTime;
-  final path;
+  final List<File> path;
   CountDownTimer(this.chosenTime, this.path);
 
   @override
@@ -28,7 +31,8 @@ class _CountDownTimerState extends State<CountDownTimer>
 //audio varibales
   bool isPlaying = false;
   AudioPlayer audioPlayer;
-
+  StreamSubscription audioPlayerSub;
+  int i =0;
 
 
   @override
@@ -41,11 +45,10 @@ class _CountDownTimerState extends State<CountDownTimer>
     );
 
     controller.addStatusListener((status) {
-     if (status== AnimationStatus.dismissed)
-     {
-       endProcess();
-       Navigator.of(context).pop();
-     }
+      if (status == AnimationStatus.dismissed) {
+        endProcess();
+        Navigator.of(context).pop();
+      }
     });
 
     btnController = AnimationController(
@@ -54,22 +57,32 @@ class _CountDownTimerState extends State<CountDownTimer>
     );
 
     audioPlayer = AudioPlayer();
+
+    audioPlayerSub = audioPlayer.onPlayerCompletion.listen((event) {
+      var pathArray= widget.path;
+      int len = pathArray.length;
+      int index= (++i)%len;
+      playAudioFromLocalStorage(pathArray[index].path);
+    });
   }
 
-@override
+  @override
   void dispose() {
     controller.dispose();
     btnController.dispose();
     audioPlayer.dispose();
+    //not null cancel
+    audioPlayerSub?.cancel();
+    widget.path.clear();
     super.dispose();
   }
+
 //debug for audio
   final String error = 'Error occurred in playing from storage';
   final String success = 'Process Success';
 
-
   playAudioFromLocalStorage(path) async {
-    audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    //audioPlayer.setReleaseMode(ReleaseMode.LOOP);
     int response = await audioPlayer.play(path, isLocal: true);
 
     response == 1 ? print('$success') : print('$error');
@@ -97,6 +110,8 @@ class _CountDownTimerState extends State<CountDownTimer>
     stopAudio();
     controller.reset();
     btnController.reset();
+    widget.path.clear();
+    print("path cleared");
     setState(() {
       txt = "Play";
     });
@@ -176,9 +191,11 @@ class _CountDownTimerState extends State<CountDownTimer>
                             icon: AnimatedIcons.play_pause,
                             progress: btnController),
                         onPressed: () {
+                         
+
                           isPlaying = !isPlaying;
                           isPlaying
-                              ? playAudioFromLocalStorage(widget.path)
+                              ? playAudioFromLocalStorage(widget.path[i].path)
                               : pauseAudio();
 
                           btnPlay = !btnPlay;
@@ -228,8 +245,16 @@ class _CountDownTimerState extends State<CountDownTimer>
                                 label: Text(
                                     controller.isAnimating ? "Pause" : "Play"));
                           }),*/
-                     
-                  IconButton(icon: Icon(Icons.stop), onPressed: (){endProcess();}, iconSize: 30, color: Colors.white,)  ],
+
+                      IconButton(
+                        icon: Icon(Icons.stop),
+                        onPressed: () {
+                          endProcess();
+                        },
+                        iconSize: 30,
+                        color: Colors.white,
+                      )
+                    ],
                   ),
                 ),
               ],
