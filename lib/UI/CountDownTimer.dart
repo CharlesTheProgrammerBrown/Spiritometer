@@ -28,6 +28,7 @@ class _CountDownTimerState extends State<CountDownTimer>
     return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
+
 //audio varibales
   bool isPlaying = false;
   AudioPlayer audioPlayer;
@@ -129,6 +130,7 @@ class _CountDownTimerState extends State<CountDownTimer>
       FlatButton(onPressed: (){
         endProcess();
         Navigator.of(context).pop(true);
+        
 
       },
       child: Text('Yes', style:uiPopUpBtnStyle),
@@ -145,6 +147,7 @@ class _CountDownTimerState extends State<CountDownTimer>
 
     return WillPopScope(
               child: Scaffold(
+                
                 //backgroundColor:Colors.transparent,
 
                 backgroundColor: Colors.white10,
@@ -290,7 +293,12 @@ class _CountDownTimerState extends State<CountDownTimer>
                               icon: Icon(Icons.keyboard_backspace, size:35, color: Colors.white,),
                               onPressed: () {
 
-                              _onWillPop();
+if(controller.isAnimating==false){
+  controller.forward(); 
+  _onWillPop();
+  }
+  else _onWillPop();
+                     
 
 
                                 //endProcess();
@@ -300,7 +308,7 @@ class _CountDownTimerState extends State<CountDownTimer>
                   ],),
               ),
 
-            onWillPop:_onWillPop,
+            onWillPop: _onWillPop,
     );
         
   }
