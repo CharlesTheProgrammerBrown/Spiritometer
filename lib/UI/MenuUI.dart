@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/ROR.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
+import 'package:spiritometer/Shared/constants.dart';
 
 class MenuModel {
   String title;
@@ -41,21 +43,25 @@ class MenuLayout extends StatelessWidget {
       itemCount: items.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 5.0,
-          color: Color(0xFF398AE5), //Colors.deepPurpleAccent[400],
-          margin: EdgeInsets.all(6.0),
-          child: ListTile(
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: OutlineGradientButton(
+            padding: const EdgeInsets.symmetric(vertical:15, horizontal:80),
+            elevation: 0.0,
+            child: Container(child: Text(items[index].title, textAlign: TextAlign.center,style: uiHomeContentStyle,), color: Colors.white,),
             onTap: () {
-              prayNowBottomSheetModal(context, items[index].funcName);
-            },
-            contentPadding: EdgeInsets.only(left: 70, right: 30),
-            leading: items[index].icon,
-            title: Text(
-              items[index].title,
-              style: TextStyle(fontSize: 20, color: Colors.white),
+                prayNowBottomSheetModal(context, items[index].funcName);
+              },
+              gradient: LinearGradient(
+                colors: [
+                    Color(0xFF59c173),
+                    Color(0xFF8f94fb),
+                    Color(0xFFa17fe0),
+                  ],
+                ),
+            radius: Radius.circular(30),
+            strokeWidth:5
             ),
-          ),
         );
       },
     );
