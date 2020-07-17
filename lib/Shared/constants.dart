@@ -23,3 +23,23 @@ final uiBoxDecorationStyle = BoxDecoration(
   ),
   ],
 );
+
+
+//EXIT POP UP WINDOW STYLES
+final uiPopUpBtnStyle = TextStyle(
+  color:Colors.blue,
+  fontWeight:FontWeight.bold,
+  fontSize: 15,
+  fontFamily:'OpenSans'
+);
+
+final uiPopUpContentStyle = TextStyle(fontSize: 18,
+  fontFamily:'OpenSans');
+
+
+final uiTextStyle = TextStyle(
+  color:Colors.black,
+  fontWeight:FontWeight.bold,
+  fontSize: 15,
+  fontFamily:'OpenSans'
+);
