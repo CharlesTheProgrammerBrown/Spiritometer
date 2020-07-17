@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
+import '../Shared/constants.dart';
 
 class CountDownTimer extends StatefulWidget {
   final chosenTime;
@@ -32,8 +32,7 @@ class _CountDownTimerState extends State<CountDownTimer>
   bool isPlaying = false;
   AudioPlayer audioPlayer;
   StreamSubscription audioPlayerSub;
-  int i =0;
-
+  int i = 0;
 
   @override
   void initState() {
@@ -59,9 +58,9 @@ class _CountDownTimerState extends State<CountDownTimer>
     audioPlayer = AudioPlayer();
 
     audioPlayerSub = audioPlayer.onPlayerCompletion.listen((event) {
-      var pathArray= widget.path;
+      var pathArray = widget.path;
       int len = pathArray.length;
-      int index= (++i)%len;
+      int index = (++i) % len;
       playAudioFromLocalStorage(pathArray[index].path);
     });
   }
@@ -117,150 +116,193 @@ class _CountDownTimerState extends State<CountDownTimer>
     });
   }
 
+ Future <bool> _onWillPop() async {
+  return ( showDialog(
+  context:context,
+  builder:(context)=> AlertDialog(
+    title: Text('Are you sure?'),
+    content:Text('Exit Prayer Feature', style: uiPopUpContentStyle,),
+    actions: [FlatButton(
+      onPressed: ()=> Navigator.of(context).pop(false),
+      child: Text('No', style: uiPopUpBtnStyle,),
+    ),
+      FlatButton(onPressed: (){
+        endProcess();
+        Navigator.of(context).pop(true);
+
+      },
+      child: Text('Yes', style:uiPopUpBtnStyle),
+      ),
+      ],
+  ),
+  ))?? false;
+}
+
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = ThemeData(
         iconTheme: IconThemeData(color: Colors.white), accentColor: Colors.red);
-    return Scaffold(
-      backgroundColor: Colors.white10,
-      body: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) {
-            return Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.blue,
-                    height:
-                        controller.value * MediaQuery.of(context).size.height,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Align(
-                          alignment: FractionalOffset.center,
-                          child: AspectRatio(
-                            aspectRatio: 1.0,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned.fill(
-                                  child: CustomPaint(
-                                      painter: CustomTimerPainter(
-                                    animation: controller,
-                                    backgroundColor: Colors.white,
-                                    color: themeData.indicatorColor,
-                                  )),
-                                ),
-                                Align(
-                                  alignment: FractionalOffset.center,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "Count Down Timer",
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        timerString,
-                                        style: TextStyle(
-                                            fontSize: 112.0,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+
+    return WillPopScope(
+              child: Scaffold(
+                //backgroundColor:Colors.transparent,
+
+                backgroundColor: Colors.white10,
+                body:  Stack(
+                  children:[
+                    AnimatedBuilder(
+                      animation: controller,
+                      builder: (context, child) {
+                        return Stack(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                color: Colors.blue,
+                                height: controller.value *
+                                    MediaQuery.of(context).size.height,
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      FloatingActionButton.extended(
-                        //color: Colors.white,
-                        //iconSize: 70,
-                        icon: AnimatedIcon(
-                            icon: AnimatedIcons.play_pause,
-                            progress: btnController),
-                        onPressed: () {
-                         
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Align(
+                                      alignment: FractionalOffset.center,
+                                      child: AspectRatio(
+                                        aspectRatio: 1.0,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned.fill(
+                                              child: CustomPaint(
+                                                  painter: CustomTimerPainter(
+                                                animation: controller,
+                                                backgroundColor: Colors.white,
+                                                color: themeData.indicatorColor,
+                                              )),
+                                            ),
+                                            Align(
+                                              alignment: FractionalOffset.center,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Count Down Timer",
+                                                    style: TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.white),
+                                                  ),
+                                                  Text(
+                                                    timerString,
+                                                    style: TextStyle(
+                                                        fontSize: 112.0,
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom:20.0),
+                                    child: FloatingActionButton.extended(
+                                      //color: Colors.white,
+                                      //iconSize: 70,
+                                      icon: AnimatedIcon(
+                                          icon: AnimatedIcons.play_pause,
+                                          progress: btnController),
+                                      onPressed: () {
+                                        isPlaying = !isPlaying;
+                                        isPlaying
+                                            ? playAudioFromLocalStorage(
+                                                widget.path[i].path)
+                                            : pauseAudio();
 
-                          isPlaying = !isPlaying;
-                          isPlaying
-                              ? playAudioFromLocalStorage(widget.path[i].path)
-                              : pauseAudio();
+                                        btnPlay = !btnPlay;
+                                        btnPlay
+                                            ? btnController.forward()
+                                            : btnController.reverse();
 
-                          btnPlay = !btnPlay;
-                          btnPlay
-                              ? btnController.forward()
-                              : btnController.reverse();
+                                        if (controller.isAnimating) {
+                                          controller.stop();
+                                          setState(() {
+                                            txt = "PLAY";
+                                          });
 
-                          if (controller.isAnimating) {
-                            controller.stop();
-                            setState(() {
-                              txt = "PLAY";
-                            });
+                                          //btnController.forward();
+                                        } else {
+                                          controller.reverse(
+                                              from: controller.value == 0.0
+                                                  ? 1.0
+                                                  : controller.value);
+                                          setState(() {
+                                            txt = "PAUSE";
+                                          });
 
-                            //btnController.forward();
-                          } else {
-                            controller.reverse(
-                                from: controller.value == 0.0
-                                    ? 1.0
-                                    : controller.value);
-                            setState(() {
-                              txt = "PAUSE";
-                            });
+                                          //btnController.reverse();
 
-                            //btnController.reverse();
+                                        }
+                                      },
+                                      label: Text(txt),
+                                    ),
+                                  ),
+                                  /*AnimatedBuilder(
+                                animation: controller,
+                                builder: (context, child) {
+                                  return FloatingActionButton.extended(
+                                      onPressed: () {
+                                        if (controller.isAnimating)
+                                          controller.stop();
+                                        else {
+                                          controller.reverse(
+                                              from: controller.value == 0.0
+                                                  ? 1.0
+                                                  : controller.value);
+                                        }
+                                      },
+                                      icon: AnimatedIcon(
+                                          icon: AnimatedIcons.play_pause,
+                                          progress: controller),
+                                      label: Text(
+                                          controller.isAnimating ? "Pause" : "Play"));
+                                }),*/
 
-                          }
-                        },
-                        label: Text(txt),
-                      ),
-                      /*AnimatedBuilder(
-                          animation: controller,
-                          builder: (context, child) {
-                            return FloatingActionButton.extended(
-                                onPressed: () {
-                                  if (controller.isAnimating)
-                                    controller.stop();
-                                  else {
-                                    controller.reverse(
-                                        from: controller.value == 0.0
-                                            ? 1.0
-                                            : controller.value);
-                                  }
-                                },
-                                icon: AnimatedIcon(
-                                    icon: AnimatedIcons.play_pause,
-                                    progress: controller),
-                                label: Text(
-                                    controller.isAnimating ? "Pause" : "Play"));
-                          }),*/
 
-                      IconButton(
-                        icon: Icon(Icons.stop),
-                        onPressed: () {
-                          endProcess();
-                        },
-                        iconSize: 30,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            );
-          }),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                    Row(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top:12.0),
+                          child: IconButton(tooltip: "Exit",
+                              icon: Icon(Icons.keyboard_backspace, size:35, color: Colors.white,),
+                              onPressed: () {
+
+                              _onWillPop();
+
+
+                                //endProcess();
+
+                              }),
+                        ),],),
+                  ],),
+              ),
+
+            onWillPop:_onWillPop,
     );
+        
   }
 }
 
