@@ -74,7 +74,7 @@ class _PrayNowState extends State<PrayNow> {
                   Padding(
                     padding: const EdgeInsets.only(top: 1.0, right: 0),
                     child: IconButton(
-                        icon: Icon(Icons.cancel, color: Colors.red, size: 30.0),
+                        icon: Icon(Icons.cancel, color: Colors.black87, size: 25.0),
                         onPressed: () => Navigator.of(context).pop()),
                   )
                 ]),
