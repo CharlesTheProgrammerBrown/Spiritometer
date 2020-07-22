@@ -14,6 +14,10 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       //pass on stream to all children widget
       child: MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.grey[50],
+            //Color(0xffF5F5F5)
+          ),
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           onGenerateRoute: RouteGenerator.generateRoute
