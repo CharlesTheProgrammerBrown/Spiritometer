@@ -23,11 +23,14 @@ class Loading extends StatelessWidget {
         ),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 150.0),
+              //SizedBox(height: 150.0),
               Image.asset('assets/images/logo_name_transparent copy.png',
                   height: 130, width: double.infinity),
-              SpinKitChasingDots(color: Colors.red, size: 90.0),
+              SizedBox(height: 50.0),
+              SpinKitFadingCircle(color: Colors.white, size: 50.0),
+              SizedBox(height: 150.0)
             ],
           ),
         ));
