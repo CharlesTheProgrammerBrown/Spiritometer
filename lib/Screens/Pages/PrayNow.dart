@@ -56,7 +56,21 @@ class _PrayNowState extends State<PrayNow> {
       color: Colors.transparent,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue[500],
+  gradient: LinearGradient(
+    colors: <Color>[
+      Color(0xFF59c173),
+      Color(0xFF8f94fb),
+      Color(0xFFa17fe0),
+      
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [0.1, 0.7, 0.9],
+
+    
+  ),
+
+         
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(35.0),
             topRight: Radius.circular(35.0),
