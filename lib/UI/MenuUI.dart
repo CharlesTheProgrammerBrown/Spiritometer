@@ -40,15 +40,17 @@ class MenuLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      
       itemCount: items.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: OutlineGradientButton(
-            padding: const EdgeInsets.symmetric(vertical:15, horizontal:80),
+            padding: const EdgeInsets.symmetric(vertical:15, horizontal:50),
             elevation: 0.0,
-            child: Container(child: Text(items[index].title, textAlign: TextAlign.center,style: uiHomeContentStyle,), color: Colors.white,),
+            child: Container( 
+              child: Text(items[index].title, textAlign: TextAlign.center,style: uiHomeContentStyle,), color: Colors.transparent,),
             onTap: () {
                 prayNowBottomSheetModal(context, items[index].funcName);
               },
