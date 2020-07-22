@@ -238,7 +238,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     /*   check if confirmPass is same as password
                                          if (confirmPas == password) {}
                                     */
-                                  });
+                                  },);
                                 },
                                 obscureText: true,
                                 keyboardType: TextInputType.visiblePassword,
