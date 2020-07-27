@@ -19,15 +19,15 @@ class RoR extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 14.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: Row(
                   children: [
-                    BackButton(color: Colors.black87),
+                    BackButton(color: Colors.black),
                     Spacer(),
                     IconButton(
                         icon: Icon(
                           Icons.settings,
-                          color: Colors.black87,
+                          color: Colors.black,
                         ),
                         onPressed: null)
                   ],
