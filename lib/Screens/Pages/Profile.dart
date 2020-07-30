@@ -3,17 +3,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
 import 'package:spiritometer/Services/auth.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 class Profile extends StatefulWidget {
+  final Future userName;
+  Profile(name, {this.userName});
+
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
   dynamic defaultAvatar = 'https://via.placeholder.com/150';
-  final AuthService _auth = AuthService();
+ final AuthService _auth = AuthService();
   //File pathFiles;
   //bool fileAdded = false;
 
@@ -30,6 +37,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+//final userName = Provider.of<User>(context);
+
     var editProfilePic = GestureDetector(
       onTap: () {
         getImage();
@@ -93,7 +102,7 @@ class _ProfileState extends State<Profile> {
           ),
           SizedBox(height: 10),
           Text(
-            "Charles Brown",
+            widget.userName.toString(),
             style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
           )
         ],
@@ -135,7 +144,17 @@ class _ProfileState extends State<Profile> {
                   child: navHeader,
                 ),
                 SizedBox(height: 10),
-                profilePic,
+                FutureBuilder(
+                  future: FirebaseAuth.instance.currentUser(),
+                  builder: (context,AsyncSnapshot<FirebaseUser> snapshot) {
+                    if(snapshot.hasData){
+                    return profilePic;
+                  }
+                  else{
+                    return Text('Loading');
+                  }
+                   },
+                    ),
                 SizedBox(height: 10),
                       Container(
 

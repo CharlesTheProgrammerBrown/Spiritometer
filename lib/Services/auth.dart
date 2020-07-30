@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spiritometer/Services/database.dart';
 import 'package:spiritometer/models/user.dart';
 //import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class AuthService {
 //create user obj based on FirebaseUser
 
   User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid, name: user.displayName) : null;
   }
 
 /*auth change user stream
@@ -34,6 +35,8 @@ Stream<FirebaseUser> get user{
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+
+
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -42,13 +45,16 @@ Stream<FirebaseUser> get user{
   }
 //register with email and password
 
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password, String name) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
 //grab user from result
       FirebaseUser user = result.user;
+
+      //create document for the user with firebase uid
+       await DatabaseService(uid:user.uid).updateUserData(name, email);
 
 //turn FirebaseUser with multiple info to user class created wit jst ID
       return _userFromFirebaseUser(user);

@@ -16,6 +16,8 @@ class RouteGenerator {
 
   static List<File> get pathFiles => null;
 
+  static get name => null;
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //data you're passing
 
@@ -27,7 +29,7 @@ class RouteGenerator {
         break;
 
         case '/profilePage':
-        return MaterialPageRoute(builder: (_) => Profile());
+        return MaterialPageRoute(builder: (_) => Profile(name));
 
       case '/prayNow':
         return MaterialPageRoute(builder: (_) => PrayNow());
