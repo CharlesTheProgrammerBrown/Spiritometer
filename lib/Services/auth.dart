@@ -73,4 +73,11 @@ Stream<FirebaseUser> get user{
       return null;
     }
   }
+
+Future <String>  getCurrentUserId() async  {
+  return (await FirebaseAuth.instance.currentUser()).uid;
+  
+  }
+
+
 }
