@@ -1,16 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
-import 'package:spiritometer/Screens/Pages/Profile.dart';
 
 import 'package:spiritometer/UI/MenuUI.dart';
 
 class Home extends StatelessWidget {
- 
-    //firestoreInstance.collection("users").document(firebaseUser.uid).get().then((value){
-    //  print(value.data);
-//await FirebaseAuth.instance.currentUser();
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +33,8 @@ class Home extends StatelessWidget {
                               Icons.settings,
                               color: Colors.white,
                             ),
-                            onPressed: () async {
-                               var firebaseUser = await FirebaseAuth.instance.currentUser();
-                            var name= Firestore.instance.collection('UserData').document(firebaseUser.uid).get().then((value) => value.data["name"]);
-                             print(name);
-                              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              Profile(name)
-                              ),
-                              );
+                            onPressed: ()  {
+                              Navigator.pushNamed(context, '/profilePage');
                               //async
                               //await _auth.signOut();
                             }),
