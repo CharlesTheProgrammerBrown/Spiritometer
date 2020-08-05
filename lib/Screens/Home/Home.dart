@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spiritometer/Screens/Home/menu.dart';
-import 'package:spiritometer/Services/auth.dart';
+import 'package:outline_gradient_button/outline_gradient_button.dart';
+
 import 'package:spiritometer/UI/MenuUI.dart';
 
 class Home extends StatelessWidget {
-  // MainPage();
-  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +18,25 @@ class Home extends StatelessWidget {
               CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
+                     automaticallyImplyLeading:false,
                     expandedHeight: MediaQuery.of(context).size.height / 3,
                     actions: <Widget>[
+                      
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: FlatButton.icon(
                             label: Text(
-                              'Sign Out',
+                              'Profile',
                               style: TextStyle(color: Colors.white),
                             ),
                             icon: Icon(
-                              Icons.person,
+                              Icons.settings,
                               color: Colors.white,
                             ),
-                            onPressed: () async {
-                              await _auth.signOut();
+                            onPressed: ()  {
+                              Navigator.pushNamed(context, '/profilePage');
+                              //async
+                              //await _auth.signOut();
                             }),
                       )
                     ],
@@ -45,15 +47,8 @@ class Home extends StatelessWidget {
                   ),
                   SliverList(
                       delegate: SliverChildListDelegate([
-                    SizedBox(height: 40.0),
-                    ListTile(
-                      title: Center(
-                        child: Text('CHARLES BROWN',
-                            style: TextStyle(
-                                fontSize: 20,
-                                backgroundColor: Colors.blueGrey[100])),
-                      ),
-                    ),
+                    SizedBox(height: 90.0),
+  
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: MenuLayout(),
@@ -63,15 +58,21 @@ class Home extends StatelessWidget {
               ),
               Positioned(
                 top: 115,
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundColor:
-                      Color(0xFF398AE5), //Colors.deepPurpleAccent[400],
+                child: OutlineGradientButton(
+                  gradient: LinearGradient(colors: [
+                    Color(0xFF59c173),
+                    Color(0xFF8f94fb),
+                    Color(0xFFa17fe0),
+                  ], begin: Alignment(-1, -1), end: Alignment(2, 2)),
+                  strokeWidth: 5,
+                  padding: EdgeInsets.all(8),
+                  radius: Radius.circular(90),
+                  //Colors.deepPurpleAccent[400],
                   child: CircleAvatar(
-                    radius: 72,
-                    backgroundImage:
-                        AssetImage('assets/images/CHARLES_BROWN.jpg'),
-                  ),
+                      radius: 78,
+                      //height: 70,
+                      backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                      ),
                 ),
               ),
             ],

@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
+import 'package:spiritometer/Screens/Pages/Profile.dart';
 import 'package:spiritometer/Screens/Pages/ROR.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import 'package:spiritometer/UI/CountDownTimer.dart';
-import './Screens/Home/Home.dart';
+
 //import './Screens/LoginScreen.dart';
 //import './Screens/Authenticate/LoginScreen.dart';
-import './Screens/Authenticate/RegisterScreen.dart';
+
 
 class RouteGenerator {
+  static get time => null;
+
+  static List<File> get pathFiles => null;
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //data you're passing
 
@@ -18,12 +25,16 @@ class RouteGenerator {
           //made wrapper the root route
             builder: (BuildContext context) => Wrapper());
         break;
+
+        case '/profilePage':
+        return MaterialPageRoute(builder: (_) => Profile());
+
       case '/prayNow':
         return MaterialPageRoute(builder: (_) => PrayNow());
 
-       /* case '/countDownTimer':
-        return MaterialPageRoute(builder: (_) => CountDownTimer());
-*/
+        case '/countDownTimer':
+        return MaterialPageRoute(builder: (_) => CountDownTimer(time,pathFiles));
+
       case '/RoR':
       return MaterialPageRoute(builder: (_)=> RoR());
 
