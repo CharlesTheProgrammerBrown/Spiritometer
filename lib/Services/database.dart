@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+
 class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
@@ -19,4 +20,16 @@ class DatabaseService {
       },
     );
   }
+
+//AuthService _auth = AuthService();
+  //Stream get getUid  {
+  //final user= FirebaseAuth.instance.currentUser();
+  //return userDataCollection.document().snapshots();
+  //}
+
+
+
+  //Stream to listen to UserData collection
+
+  
 }
