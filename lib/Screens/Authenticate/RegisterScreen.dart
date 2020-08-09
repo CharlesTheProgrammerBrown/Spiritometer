@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:spiritometer/Services/auth.dart';
 //import 'package:spiritometer/UI/CustomInputField.dart';
 import 'package:spiritometer/Shared/constants.dart';
+import 'package:spiritometer/models/userDataModel/firebaseUserDataRepository.dart';
+import 'package:spiritometer/models/userDataModel/userDataModel.dart';
+import 'package:spiritometer/models/userDataModel/userDataRepository.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function toggleViewResult;
@@ -14,6 +17,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
+  final UserDataRepository _firebaseUserDataRepository =
+      FirebaseUserDataRepository();
+      
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -172,8 +178,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     setState(() {
                                       error =
                                           'An error occurred while registering.';
-                                    });
+                                    }) ;
                                   }
+                                  else {await _firebaseUserDataRepository.addUserData(
+        UserDataModel(
+          email: email,
+          name: name,
+        ),
+      );}
                                 }
                               },
                               padding: EdgeInsets.all(15.0),
