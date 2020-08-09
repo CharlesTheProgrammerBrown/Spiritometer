@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -26,14 +26,41 @@ class _ProfileState extends State<Profile> {
   //bool fileAdded = false;
 
   File _image;
-  final picker = ImagePicker();
+  final imagePicker = ImagePicker();
 
+  
+
+//get image from file picker
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
 
     setState(() {
       _image = File(pickedFile.path);
+      addImageToFirebase(_image);
     });
+  }
+
+  addImageToFirebase(File image) async {
+    
+
+    //Create reference to Firebase Storage with image path
+    StorageReference reference = FirebaseStorage.instance.ref().child(
+          image.path.toString(),
+        );
+
+//upload file to Firebase storage
+    StorageUploadTask uploadTask = reference.putFile(image);
+
+//Snapshot of the uploading task
+    StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
+
+    String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+
+
+     if (uploadTask.isComplete) {
+      var url = downloadUrl.toString();
+      _userDataRepository.updateUserPhoto( UserDataModel(photoUrl: url),);
+    }
   }
 
   @override
@@ -129,7 +156,7 @@ class _ProfileState extends State<Profile> {
                                             snapshot.data.photoUrl != null
                                                 ? NetworkImage(
                                                     snapshot.data.photoUrl)
-                                                : FileImage(_image),
+                                                : AssetImage('assets/images/placeholder.png'),
                                       )
                                     : CircularProgressIndicator(),
                               ),
@@ -144,13 +171,11 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 10),
                         snapshot.hasData
                             ? Text(
-                                snapshot.data.name,
+                                snapshot.data.name !=null? snapshot.data.name:"Error",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 20),
                               )
-                            : Text("Profile Loading",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 20))
+                            : CircularProgressIndicator()
                       ],
                     );
                   }),
