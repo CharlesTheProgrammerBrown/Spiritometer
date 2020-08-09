@@ -10,10 +10,10 @@ class UserDataModel extends Equatable {
   final String photoUrl;
 
   UserDataModel({
-    @required this.id,
-    @required this.email,
-    @required this.name,
-    @required this.photoUrl,
+    this.id,
+     this.email,
+    this.name,
+    this.photoUrl,
   });
 
   UserDataModel copyWith({
