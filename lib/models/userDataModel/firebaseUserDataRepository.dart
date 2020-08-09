@@ -57,6 +57,15 @@ class FirebaseUserDataRepository implements UserDataRepository {
         .updateData(update.userDataEntity().toDocument());
   }
 
+@override
+  Future<void> updateUserPhoto(UserDataModel update) async {
+    final collection = await getCollection();
+    final String userId = await _authService.getCurrentUserId();
+
+    return collection
+        .document(userId)
+        .updateData(update.userDataEntity().toDocumentPhotoUrlUpdate());
+  }
   //add collection method
 
   Future<CollectionReference> getCollection() async {

@@ -37,6 +37,14 @@ class UserDataEntity extends Equatable {
     };
   }
 
+  Map<String, Object> toDocumentPhotoUrlUpdate() {
+    return {
+      //firebase collection field format where to save
+      'photoUrl': photoUrl,
+      'updatedOn': Timestamp.now()
+    };
+  }
+
   @override
   List<Object> get props => [
         id,

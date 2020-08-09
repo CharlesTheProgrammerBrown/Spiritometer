@@ -11,25 +11,15 @@ class DatabaseService {
       Firestore.instance.collection('UserData');
 
   Future updateUserData(
-      String name, String email) async {
+      String photoUrl) async {
     return await userDataCollection.document(uid).setData(
       {
-        'name': name,
-        'email': email,
-        
+        'photoUrl': photoUrl ,
       },
+      merge: true
     );
   }
 
-//AuthService _auth = AuthService();
-  //Stream get getUid  {
-  //final user= FirebaseAuth.instance.currentUser();
-  //return userDataCollection.document().snapshots();
-  //}
-
-
-
-  //Stream to listen to UserData collection
 
   
 }

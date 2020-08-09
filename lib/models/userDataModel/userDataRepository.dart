@@ -10,4 +10,6 @@ abstract class UserDataRepository {
   Stream<UserDataModel> getCurrentUserData();
 
   Future<void> updateUserData(UserDataModel userData);
+
+  Future<void> updateUserPhoto(UserDataModel userData);
 }
