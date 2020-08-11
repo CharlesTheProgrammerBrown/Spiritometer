@@ -30,7 +30,7 @@ class UserDataModel extends Equatable {
     );
   }
 
-  UserDataEntity userDataEntity() {
+  UserDataEntity userDataToEntity() {
     return UserDataEntity(
       id: id,
       email: email,
