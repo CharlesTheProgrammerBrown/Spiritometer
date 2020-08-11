@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/Profile.dart';
-import 'package:spiritometer/Screens/Pages/ROR.dart';
+import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import 'package:spiritometer/UI/CountDownTimer.dart';
 
@@ -36,7 +36,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CountDownTimer(time,pathFiles));
 
       case '/RoR':
-      return MaterialPageRoute(builder: (_)=> RoR());
+      return MaterialPageRoute(builder: (_)=> RhapsodyMenu());
 
        case '/bibleStudy':
       return MaterialPageRoute(builder: (_)=> PrayNow());

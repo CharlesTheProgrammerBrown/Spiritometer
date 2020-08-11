@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
-import 'package:spiritometer/Screens/Pages/ROR.dart';
+import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:spiritometer/Shared/constants.dart';
 
@@ -22,7 +22,7 @@ class MenuLayout extends StatelessWidget {
     MenuModel(
         icon: Icon(Icons.library_books, color: Colors.white),
         title: 'RHAPSODY OF REALITIES',
-        funcName: RoR()),
+        funcName: RhapsodyMenu()),
     MenuModel(
         icon: Icon(Icons.book, color: Colors.white),
         title: 'BIBLE STUDY',
