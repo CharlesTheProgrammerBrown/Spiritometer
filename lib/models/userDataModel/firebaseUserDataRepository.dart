@@ -13,7 +13,7 @@ class FirebaseUserDataRepository implements UserDataRepository {
     final String userId = await _authService.getCurrentUserId();
 
     await collection.document(userId).setData(
-          userData.userDataEntity().toDocument(),
+          userData.userDataToEntity().toDocument(),
         );
 
     return userId;
@@ -54,7 +54,7 @@ class FirebaseUserDataRepository implements UserDataRepository {
 
     return collection
         .document(userId)
-        .updateData(update.userDataEntity().toDocument());
+        .updateData(update.userDataToEntity().toDocument());
   }
 
 @override
@@ -64,7 +64,7 @@ class FirebaseUserDataRepository implements UserDataRepository {
 
     return collection
         .document(userId)
-        .updateData(update.userDataEntity().toDocumentPhotoUrlUpdate());
+        .updateData(update.userDataToEntity().toDocumentPhotoUrlUpdate());
   }
   //add collection method
 
