@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^0.6.7+4
   equatable: ^1.0.0
   firebase_storage: ^3.1.6
+  flushbar: ^1.10.4
           
 
 
@@ -86,6 +87,9 @@ flutter:
       - family: OpenSans
         fonts:
             - asset: assets/fonts/OpenSans-Regular.ttf
+      - family: Slab
+        fonts:
+            - asset: assets/fonts/AnticSlab-Regular.ttf
 
  #   - family: Schyler
  #     fonts:
