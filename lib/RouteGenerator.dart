@@ -7,9 +7,10 @@ import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import 'package:spiritometer/UI/CountDownTimer.dart';
 
+import 'Screens/Pages/RhapsodyNavigation.dart';
+
 //import './Screens/LoginScreen.dart';
 //import './Screens/Authenticate/LoginScreen.dart';
-
 
 class RouteGenerator {
   static get time => null;
@@ -22,27 +23,31 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          //made wrapper the root route
+            //made wrapper the root route
             builder: (BuildContext context) => Wrapper());
         break;
 
-        case '/profilePage':
+      case '/profilePage':
         return MaterialPageRoute(builder: (_) => Profile());
 
       case '/prayNow':
         return MaterialPageRoute(builder: (_) => PrayNow());
 
-        case '/countDownTimer':
-        return MaterialPageRoute(builder: (_) => CountDownTimer(time,pathFiles));
+      case '/countDownTimer':
+        return MaterialPageRoute(
+            builder: (_) => CountDownTimer(time, pathFiles));
 
       case '/RoR':
-      return MaterialPageRoute(builder: (_)=> RhapsodyMenu());
+        return MaterialPageRoute(builder: (_) => RhapsodyMenu());
 
-       case '/bibleStudy':
-      return MaterialPageRoute(builder: (_)=> PrayNow());
+      case '/RhapsodyNav':
+        return MaterialPageRoute(builder: (_) => RhapsodyNavigation());
 
-       case '/schedule':
-      return MaterialPageRoute(builder: (_)=> PrayNow());
+      case '/bibleStudy':
+        return MaterialPageRoute(builder: (_) => PrayNow());
+
+      case '/schedule':
+        return MaterialPageRoute(builder: (_) => PrayNow());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
@@ -50,9 +55,7 @@ class RouteGenerator {
     }
   }
 
-
-
- static Route<dynamic> _errorRoute() {
+  static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
