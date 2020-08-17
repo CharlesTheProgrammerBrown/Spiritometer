@@ -3,37 +3,33 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyRecord.dart';
 
-
 class RhapsodyMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(top: 17.0),
+          child: BackButton(),
+        ),
+        backgroundColor: Color(0xFF8f94fb),
+        centerTitle: true,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 17.0),
+          child: Text(
+            "Rhapsody Calendar",
+            style: TextStyle(
+                letterSpacing: 1, fontFamily: "OpenSans", color: Colors.white),
+          ),
+        ),
+      ),
       body: SafeArea(
-        left: true,
-        right: true,
-        bottom: true,
-        top: true,
         child: Container(
           // decoration: boxDecoration,
           color: Colors.white54,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Row(
-                  children: [
-                    BackButton(color: Colors.black),
-                    Spacer(),
-                    IconButton(
-                        icon: Icon(
-                          Icons.settings,
-                          color: Colors.black,
-                        ),
-                        onPressed: null)
-                  ],
-                ),
-              ),
-              //SizedBox(height: 10),
               Container(
                 //decoration: boxDecoration,
                 //color: Colors.blue,
@@ -70,11 +66,11 @@ class RhapsodyMenu extends StatelessWidget {
                     bool isThisMonthDay,
                     DateTime day,
                   ) {
-/// If you return null, [CalendarCarousel] will build container for current [day] 
+/// If you return null, [CalendarCarousel] will build container for current [day]
 /// with default function.
 /// This way you can build custom containers for specific days only, leaving rest
 ///  as default.
-// Example: every 15th of month, we have a flight, we can place an icon in the 
+// Example: every 15th of month, we have a flight, we can place an icon in the
 /// container like that:
                     if (day.day == DateTime.sunday) {
                       return Center(
@@ -83,13 +79,13 @@ class RhapsodyMenu extends StatelessWidget {
                       }else {
                         return null;
                       }
-                      
+
                   },*/
                   weekFormat: false,
                   markedDatesMap: null,
                   height: 400,
                   selectedDateTime: DateTime.now(),
-                  
+
                   daysHaveCircularBorder: true,
                 ),
               ),

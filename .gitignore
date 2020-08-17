@@ -39,3 +39,5 @@ lib/generated_plugin_registrant.dart
 lib/Screens/Pages/UserTest.dart
 lib/Screens/Pages/ROR.dart
 lib/Screens/Pages/RorRecord.dart
+lib/Screens/Pages/ROR.dart
+lib/Screens/Pages/RorRecord.dart
