@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
-import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
+import 'package:spiritometer/Screens/Pages/RhapsodyNavigation.dart';
 import 'package:spiritometer/Shared/constants.dart';
 
 class MenuModel {
@@ -22,7 +22,7 @@ class MenuLayout extends StatelessWidget {
     MenuModel(
         icon: Icon(Icons.library_books, color: Colors.white),
         title: 'RHAPSODY OF REALITIES',
-        funcName: RhapsodyMenu()),
+        funcName: RhapsodyNavigation()), //RhapsodyMenu()),
     MenuModel(
         icon: Icon(Icons.book, color: Colors.white),
         title: 'BIBLE STUDY',
@@ -40,30 +40,34 @@ class MenuLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      
       itemCount: items.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: OutlineGradientButton(
-            padding: const EdgeInsets.symmetric(vertical:15, horizontal:50),
-            elevation: 0.0,
-            child: Container( 
-              child: Text(items[index].title, textAlign: TextAlign.center,style: uiHomeContentStyle,), color: Colors.transparent,),
-            onTap: () {
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+              elevation: 0.0,
+              child: Container(
+                child: Text(
+                  items[index].title,
+                  textAlign: TextAlign.center,
+                  style: uiHomeContentStyle,
+                ),
+                color: Colors.transparent,
+              ),
+              onTap: () {
                 prayNowBottomSheetModal(context, items[index].funcName);
               },
               gradient: LinearGradient(
                 colors: [
-                    Color(0xFF59c173),
-                    Color(0xFF8f94fb),
-                    Color(0xFFa17fe0),
-                  ],
-                ),
-            radius: Radius.circular(30),
-            strokeWidth:5
-            ),
+                  Color(0xFF59c173),
+                  Color(0xFF8f94fb),
+                  Color(0xFFa17fe0),
+                ],
+              ),
+              radius: Radius.circular(30),
+              strokeWidth: 5),
         );
       },
     );
