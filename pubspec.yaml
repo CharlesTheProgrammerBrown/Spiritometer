@@ -35,7 +35,8 @@ dependencies:
   outline_gradient_button: ^1.0.0+2
   flutter_calendar_carousel: ^1.4.12
   image_picker: ^0.6.7+4
-  equatable: ^1.0.0
+  flutter_bloc: 
+  equatable: 
   firebase_storage: ^3.1.6
   flushbar: ^1.10.4
           
