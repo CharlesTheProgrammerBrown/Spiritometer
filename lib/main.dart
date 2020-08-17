@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spiritometer/RouteGenerator.dart';
 import 'package:provider/provider.dart';
 import 'package:spiritometer/Services/auth.dart';
@@ -13,16 +14,22 @@ class MyApp extends StatelessWidget {
       //stream to listen for  expctd data
       value: AuthService().user,
       //pass on stream to all children widget
-      child: MaterialApp(
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.grey[50],
-            //Color(0xffF5F5F5)
-          ),
-          debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          onGenerateRoute: RouteGenerator.generateRoute
-          //home: LoginScreen(),
-          ),
+
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF8f94fb),
+        ),
+        child: MaterialApp(
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.grey[50],
+              //Color(0xffF5F5F5)
+            ),
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            onGenerateRoute: RouteGenerator.generateRoute
+            //home: LoginScreen(),
+            ),
+      ),
     );
   }
 }
