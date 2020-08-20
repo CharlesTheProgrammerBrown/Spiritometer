@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spiritometer/RhapsodyBloc/rhapsody_bloc.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyNotes.dart';
 import 'package:spiritometer/Shared/constants.dart';
+import 'package:spiritometer/models/userRhapsodyModel/FirebaseUserRhapsodyDataRepository.dart';
 
 class RhapsodyNavigation extends StatelessWidget {
   @override
@@ -9,13 +12,18 @@ class RhapsodyNavigation extends StatelessWidget {
     return SafeArea(
       child: DefaultTabController(
         length: 2,
-        child: Scaffold(
-          bottomNavigationBar: menu(),
-          body: TabBarView(
-            children: [
-              RhapsodyMenu(),
-              RhapsodyNotes(),
-            ],
+        child: BlocProvider<RhapsodyBloc>(
+          create: (context) =>
+              RhapsodyBloc(FirebaseUserRhapsodyDataRepository())
+                ..add(RhapsodyEntryLoadEvent()),
+          child: Scaffold(
+            bottomNavigationBar: menu(),
+            body: TabBarView(
+              children: [
+                RhapsodyMenu(),
+                RhapsodyNotes(),
+              ],
+            ),
           ),
         ),
       ),
