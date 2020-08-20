@@ -21,7 +21,7 @@ class FirebaseUserRhapsodyDataRepository implements UserRhapsodyRepository {
 
   @override
   Future<void> deleteUserRhapsodyData(
-      UserRhapsodyModel userRhapsodyDadyData) async {
+      UserRhapsodyModel userRhapsodyData) async {
     final collection = await getCollection();
     final String userId = await _authService.getCurrentUserId();
 

@@ -1,12 +1,11 @@
 import '../userRhapsodyModel/UserRhapsodyModel.dart';
 
-abstract class UserRhapsodyRepository{
+abstract class UserRhapsodyRepository {
+  Future<String> addUserRhapsodyData(UserRhapsodyModel userRhapsodyData);
 
-Future <String> addUserRhapsodyData(UserRhapsodyModel userRhapsodyData);
+  Future<void> deleteUserRhapsodyData(UserRhapsodyModel userRhapsodyData);
 
-Future<void> deleteUserRhapsodyData(UserRhapsodyModel userRhapsodyData);
+  Stream<List<UserRhapsodyModel>> getListOfUserRhapsodyData();
 
-Stream<List<UserRhapsodyModel>> getListOfUserRhapsodyData();
-
-Future <void> updateUserRhapsodyData(UserRhapsodyModel updateUserRhapsodyData);
+  Future<void> updateUserRhapsodyData(UserRhapsodyModel updateUserRhapsodyData);
 }
