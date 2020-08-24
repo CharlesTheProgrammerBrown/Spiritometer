@@ -1,11 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:spiritometer/RhapsodyBloc/rhapsody_bloc.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class RhapsodyMenu extends StatelessWidget {
   @override
@@ -43,10 +42,7 @@ class RhapsodyMenu extends StatelessWidget {
                   // ignore: missing_return
                   builder: (context, state) {
                     if (state is RhapsodyLoaded) {
-                      return CalendarCarouselLoaded(
-                        model: state.userRhapsodyModel,
-                        dates: state.markedDateMap,
-                      );
+                      return(Calendar(userRhapsodyModel:state.userRhapsodyModel, markedDateMap:state.markedDateMap));
                     } else if (state is RhapsodyLoading)
                       return calendarCarouselLoading(_height);
                     else
@@ -76,81 +72,7 @@ Widget calendarCarouselLoading(double height) {
   );
 }
 
-class CalendarCarouselLoaded extends StatelessWidget {
-  final List<UserRhapsodyModel> model;
-  final EventList<Event> dates;
 
-  const CalendarCarouselLoaded({Key key, this.model, this.dates})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0),
-          child: CalendarCarousel<Event>(
-            onDayPressed: null,
-            /*(DateTime date, List<Event> events) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => RhapsodyRecord(),
-            ),
-          );
-        }*/
-            weekendTextStyle: TextStyle(
-              color: Colors.red,
-            ),
-            thisMonthDayBorderColor: Colors.transparent,
-
-//      weekDays: null, /// for pass null when you do not want to render weekDays
-//      headerText: Container( /// Example for rendering custom header
-//        child: Text('Custom Header'),
-//      ),
-/*
-        customDayBuilder: (
-          /// you can provide your own build function
-          /// to make custom day containers
-          bool isSelectable,
-          int index,
-          bool isSelectedDay,
-          bool isToday,
-          bool isPrevMonthDay,
-          TextStyle textStyle,
-          bool isNextMonthDay,
-          bool isThisMonthDay,
-          DateTime day,
-        ) {
-/// If you return null, [CalendarCarousel] will build container for current [day]
-/// with default function.
-/// This way you can build custom containers for specific days only, leaving rest
-///  as default.
-// Example: every 15th of month, we have a flight, we can place an icon in the
-/// container like that:
-          if (day.day == DateTime.sunday) {
-            return Center(
-              child: Icon(Icons.hotel),
-            );
-            }else {
-              return null;
-            }
-
-        },*/
-            weekFormat: true,
-            markedDatesMap: dates,
-            height: 250,
-            selectedDateTime: DateTime.now(),
-
-            daysHaveCircularBorder: true,
-          ),
-        ),
-        RhapsodyCreateMessage()
-      ],
-    );
-  }
-}
 
 class RhapsodyCreateMessage extends StatelessWidget {
   const RhapsodyCreateMessage({
@@ -212,3 +134,107 @@ class RhapsodyCreateMessage extends StatelessWidget {
         ));
   }
 }
+
+class Calendar extends StatefulWidget {
+final List<UserRhapsodyModel> userRhapsodyModel;
+final Map<DateTime , dynamic> markedDateMap;
+
+Calendar({this.userRhapsodyModel, this.markedDateMap});
+
+  @override
+  _CalendarState createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
+  CalendarController _calendarController;
+
+  @override
+  void initState() {
+    
+    super.initState();
+    _calendarController = CalendarController();
+  }
+
+@override
+  void dispose() {
+     _calendarController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TableCalendar(
+                        calendarController: _calendarController,
+                        events:widget.markedDateMap ,
+                        initialCalendarFormat: CalendarFormat.week,
+                        availableCalendarFormats: const { CalendarFormat.twoWeeks : '2 weeks', CalendarFormat.week : 'Week'},
+                        calendarStyle: CalendarStyle(
+                            canEventMarkersOverflow: true,
+                            todayColor: Colors.orange,
+                            selectedColor: Theme.of(context).primaryColor,
+                            todayStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Colors.white),),
+                        headerStyle: HeaderStyle(
+                          centerHeaderTitle: true,
+                          formatButtonDecoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          formatButtonTextStyle: TextStyle(color: Colors.white),
+                          formatButtonShowsNext: false,
+                        ),
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        onDaySelected: (date, events) {
+                          setState(() {
+                            //_selectedEvents = events;
+                          });
+                        },
+                        builders: CalendarBuilders(
+                          selectedDayBuilder: (context, date, events) => Container(
+                              margin: const EdgeInsets.all(4.0),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Text(
+                                date.day.toString(),
+                                style: TextStyle(color: Colors.white),
+                              )),
+                          todayDayBuilder: (context, date, events) => Container(
+                              margin: const EdgeInsets.all(4.0),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Text(
+                                date.day.toString(),
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                       
+                      ),
+ // ..._selectedEvents.map((event) => ListTile(
+                  //       title: Text(event.title),
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (_) => EventDetailsPage(
+                  //                       event: event,
+                  //                     )));     
+          FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => Navigator.pushNamed(context, '/rhapsodyRecord'),),
+      ],
+    );
+                 
+    
+  }
+
+}
+    

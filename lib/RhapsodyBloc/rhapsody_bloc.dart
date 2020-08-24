@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyRepository.dart';
 
@@ -45,36 +42,16 @@ class RhapsodyBloc extends Bloc<RhapsodyEvent, RhapsodyState> {
   Stream<RhapsodyState> _mapUpdateRhapsodyEntryToState(
       RhapsodyEntryUpdated event) async* {
     await Future.delayed(Duration(milliseconds: 500));
-    final EventList<Event> _markedDateMap = new EventList<Event>(
-      events: {
-        DateTime(2020, 8, 18): [
-          Event(
-            date: DateTime.now(),
-            title: 'Event 1',
-            icon: Icon(Icons.person),
-            dot: Container(
-              margin: EdgeInsets.symmetric(horizontal: 1.0),
-              color: Colors.red,
-              height: 8.0,
-              width: 8.0,
-            ),
-          ),
-        ],
-        DateTime(2020, 8, 22): [
-          Event(
-            date: DateTime(2020, 8, 17),
-            title: 'Event 2',
-            icon: Icon(Icons.person),
-            dot: Container(
-              margin: EdgeInsets.symmetric(horizontal: 1.0),
-              color: Colors.red,
-              height: 8.0,
-              width: 8.0,
-            ),
-          ),
-        ]
-      },
-    );
+     Map<DateTime, List<dynamic>> _markedDateMap =  {
+  DateTime(2020, 8, 25): ['Rhapsody'],
+  DateTime(2020, 8, 26): ['Success'],
+  DateTime(2020, 8, 24): ['Valentine'],
+  DateTime(2020, 8, 21): ['Easter'],
+  DateTime(2020, 8, 22): ['Easter Monday'],
+
+     };
+  
+  
 
     yield RhapsodyLoaded(
         userRhapsodyModel: event.rhapsodies, markedDateMap: _markedDateMap);

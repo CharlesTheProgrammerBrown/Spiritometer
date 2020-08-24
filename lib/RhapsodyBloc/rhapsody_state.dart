@@ -12,7 +12,7 @@ class RhapsodyLoading extends RhapsodyState {}
 
 class RhapsodyLoaded extends RhapsodyState {
   final List<UserRhapsodyModel> userRhapsodyModel;
-  final EventList<Event> markedDateMap;
+  final Map<DateTime, List<dynamic>> markedDateMap;
 
   RhapsodyLoaded({this.userRhapsodyModel, this.markedDateMap});
 

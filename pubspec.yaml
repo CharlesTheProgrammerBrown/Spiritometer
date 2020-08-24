@@ -34,6 +34,7 @@ dependencies:
   audioplayers: ^0.15.1
   outline_gradient_button: ^1.0.0+2
   flutter_calendar_carousel: ^1.4.12
+  table_calendar: ^2.2.3
   image_picker: ^0.6.7+4
   flutter_bloc: 
   equatable: 
