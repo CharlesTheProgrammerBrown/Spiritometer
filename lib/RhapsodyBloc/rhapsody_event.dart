@@ -38,5 +38,6 @@ class RhapsodySavedEvent extends RhapsodyEvent {
   List<Object> get props => [
         title,
         note,
+        eventDate,
       ];
 }
