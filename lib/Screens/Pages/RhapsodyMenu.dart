@@ -11,6 +11,9 @@ class RhapsodyMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height / 3;
     return Scaffold(
+      floatingActionButton:  FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => Navigator.pushNamed(context, '/rhapsodyRecord'),),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Padding(
@@ -165,6 +168,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TableCalendar(
                         calendarController: _calendarController,
@@ -227,9 +231,8 @@ class _CalendarState extends State<Calendar> {
                   //                 builder: (_) => EventDetailsPage(
                   //                       event: event,
                   //                     )));     
-          FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/rhapsodyRecord'),),
+        
+         
       ],
     );
                  
