@@ -93,11 +93,8 @@ _eventDate = DateTime.now();
         child: Scaffold(
           body: Builder(
             builder: (context) {
-              return Form(
-                key: _formKey,
-                              child: Container(
-                  child: ListView(
-                    shrinkWrap: true,
+              return  Column(
+                    
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 14.0),
@@ -122,78 +119,64 @@ _eventDate = DateTime.now();
                               decorationColor: Colors.deepPurple),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 10),
 
-                      ListView(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        shrinkWrap: true,
-                        children: <Widget>[
-                          Container(
-                            // color:Colors.white,
-                            margin: EdgeInsets.all(14),
-                            decoration: roRBoxDecorationStyle,
-                            height: 35,
-                            width: double.infinity,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12.0, bottom: 15.0),
-                                child: TextFormField(
-                                  controller: titleController,
-                                  validator: (value) =>
-                              (value.isEmpty) ? "Please Enter title" : null,
-                                  textCapitalization:
-                                      TextCapitalization.characters,
-                                  autofocus: true,
-                                  autocorrect: true,
-                                  onTap: () {},
-                                  cursorColor: Colors.black,
-                                  style: rorRecordTextStyle,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(top: 14.0),
-                                    hintText: 'Add Title',
-                                    hintStyle: rorRecordTextStyle,
-                                    //fillColor: Colors.white,
-                                    //filled: true
+                      Form(
+                        key: _formKey,
+                                              child: Container(
+                          alignment: Alignment.center,
+                          child: ListView(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            //crossAxisAlignment: CrossAxisAlignment.start,
+                            shrinkWrap: true,
+                            children: <Widget>[
+                               Padding(
+                                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                    child: TextFormField(
+                                      controller: titleController,
+                                      validator: (value) =>
+                                  (value.isEmpty) ? "Please Enter title" : null,
+                                      textCapitalization:
+                                          TextCapitalization.characters,
+                                      autofocus: true,
+                                      autocorrect: true,
+                                      onTap: () {},
+                                      cursorColor: Colors.black,
+                                      style: rorRecordTextStyle,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(top: 14.0),
+                                        hintText: 'Add Title',
+                                        hintStyle: rorRecordTextStyle,
+                                        //fillColor: Colors.white,
+                                        //filled: true
+                                      ),
+                                    ),
+                                  ),
+                                
+                              
+                               Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                  child: TextFormField(
+                                    controller: noteController,
+                                    validator: (value) =>
+                            (value.isEmpty) ? "Please Enter Note" : null,
+                                    textCapitalization: TextCapitalization.sentences,
+                                    keyboardType: TextInputType.multiline,
+                                    textAlignVertical: TextAlignVertical.top,
+                                    cursorColor: Colors.black,
+                                    style: rorRecordTextStyle,
+                                    textInputAction: TextInputAction.newline,
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.only(top: 14.0),
+                                      hintText: 'Note',
+                                      hintStyle: rorRecordTextStyle,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          // Spacer(),
-                          Container(
-                            // color:Colors.white,
-                            margin: EdgeInsets.all(14),
-                            decoration: roRBoxDecorationStyle,
-                            height: 400,
-                            width: double.infinity,
-
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 12.0,
-                              ),
-                              child: TextFormField(
-                                controller: noteController,
-                                validator: (value) =>
-                        (value.isEmpty) ? "Please Enter Note" : null,
-                                textCapitalization: TextCapitalization.sentences,
-                                keyboardType: TextInputType.multiline,
-                                textAlignVertical: TextAlignVertical.top,
-                                cursorColor: Colors.black,
-                                style: rorRecordTextStyle,
-                                textInputAction: TextInputAction.newline,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(top: 14.0),
-                                  hintText: 'Note',
-                                  hintStyle: rorRecordTextStyle,
-                                ),
-                              ),
-                            ),
-                          ),
+                              
  const SizedBox(height: 10.0),
               ListTile(
                 title: Text("Date (YYYY-MM-DD)"),
@@ -202,95 +185,60 @@ _eventDate = DateTime.now();
                   DateTime picked = await showDatePicker(context: context, initialDate: _eventDate, firstDate: DateTime(_eventDate.year-5), lastDate: DateTime(_eventDate.year+5));
                   if(picked != null) {
                     setState(() {
-                      _eventDate = picked;
+                          _eventDate = picked;
                     });
                   }
                 },
               ),
               SizedBox(height: 10.0),
-                          Center(
-                            child: FlatButton.icon(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              color: Colors.blue[400],
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  processing = true;
-                                  await _firebaseUserRhapsodyDataRepository
-                                      .addUserRhapsodyData(
-                                    UserRhapsodyModel(
-                                      title: titleController.text,
-                                      note: noteController.text,
+              processing
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              
+                                child: FlatButton.icon(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  color: Colors.blue[400],
+                                  onPressed: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      processing = true;
+                                      await _firebaseUserRhapsodyDataRepository
+                                          .addUserRhapsodyData(
+                                        UserRhapsodyModel(
+                                          title: titleController.text,
+                                          note: noteController.text,
+                                          eventDate: _eventDate
 
-                                    ),
-                                  )
-                                      .then(
-                                    (value) {
-                                      Flushbar(
-                                        
-                                        titleText: Text(
-                                          "Congrats KingPriest!",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w700,
-                                          ),
                                         ),
-                                        messageText: Text(
-                                          "Your Article notes were saved successfully.",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18,
-                                            fontFamily: "Slab",
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        duration: Duration(
-                                          seconds: 5,
-                                        ),
-                                        backgroundColor: Colors.green,
-                                      ).show(context);
-                                     
-                                      
-                              setState(() {
-                                processing = false;
-                                endSave();
-                                                              });
-                                                                    },
-                                                                  ).catchError(
-                                                                    (onError) {
-                                                                      Flushbar(
-                                                                        title: "Sorry KingPriest",
-                                                                        messageText: Text(
-                                                                          "Could not save article notes!",
-                                                                        ),
-                                                                        backgroundColor: Colors.red,
-                                                                        duration: Duration(
-                                                                          seconds: 4,
-                                                                        ),
-                                                                      ).show(context);
-                                                                    },
-                                                                  );
-                                                                }
-                                                              },
-                                                              icon: Icon(
-                                                                Icons.save,
-                                                                size: 15,
+                                      );
+                                    
+                                         
+                                          Navigator.pop(context);
+                                  setState(() {
+                                    processing = false;
+                                 
+                                                                  });
+                                                                        
+                                                                    }
+                                                                  },
+                                                                  icon: Icon(
+                                                                    Icons.save,
+                                                                    size: 15,
+                                                                  ),
+                                                                  label: Text(
+                                                                    'Save',
+                                                                  ),
+                                                                ),
                                                               ),
-                                                              label: Text(
-                                                                'Save',
-                                                              ),
-                                                            ),
+                                                            ],
                                                           ),
-                                                        ],
-                                                      ),
+                        ),
+                      ),
                                                     ],
-                                                  ),
-                                                ),
+                                                  
+                                                
                                               );
                                             },
                                           ),
@@ -301,9 +249,7 @@ _eventDate = DateTime.now();
                                       ),
                                     );
                                   }
-                                   void endSave() {
-Navigator.pop(context);
-}
+                                   
                                 }
                                 
                                
