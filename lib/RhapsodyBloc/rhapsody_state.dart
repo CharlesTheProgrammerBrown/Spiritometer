@@ -14,6 +14,11 @@ class RhapsodyLoaded extends RhapsodyState {
   final List<UserRhapsodyModel> userRhapsodyModel;
   final Map<DateTime, List<dynamic>> markedDateMap;
 
+  @override
+  String toString() {
+    return 'RhapsodyLoaded{userRhapsodyModel: $userRhapsodyModel, markedDateMap: $markedDateMap}';
+  }
+
   RhapsodyLoaded({this.userRhapsodyModel, this.markedDateMap});
 
   @override
@@ -28,9 +33,15 @@ class RhapsodyLoadFailed extends RhapsodyState {}
 class RhapsodySaveFailed extends RhapsodyState {
   final String errorMessage;
 
+  @override
+  String toString() {
+    return 'RhapsodySaveFailed{errorMessage: $errorMessage}';
+  }
+
   RhapsodySaveFailed(this.errorMessage);
   @override
   List<Object> get props => [
         errorMessage,
       ];
 }
+
