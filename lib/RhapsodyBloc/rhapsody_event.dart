@@ -11,6 +11,11 @@ class RhapsodyEntryLoadEvent extends RhapsodyEvent {}
 class RhapsodyEntryUpdated extends RhapsodyEvent {
   final List<UserRhapsodyModel> rhapsodies;
 
+  @override
+  String toString() {
+    return 'RhapsodyEntryUpdated{rhapsodies: $rhapsodies}';
+  }
+
   RhapsodyEntryUpdated(this.rhapsodies);
 
   @override
@@ -20,8 +25,14 @@ class RhapsodyEntryUpdated extends RhapsodyEvent {
 class RhapsodySavedEvent extends RhapsodyEvent {
   final String title;
   final String note;
+  final DateTime eventDate;
 
-  RhapsodySavedEvent({this.title, this.note});
+  @override
+  String toString() {
+    return 'RhapsodySavedEvent{title: $title, note: $note, eventDate: $eventDate}';
+  }
+
+  RhapsodySavedEvent({this.title, this.note, this.eventDate});
 
   @override
   List<Object> get props => [
