@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spiritometer/RouteGenerator.dart';
 import 'package:provider/provider.dart';
 import 'package:spiritometer/Services/auth.dart';
+import 'package:spiritometer/bloc_observer.dart';
 import 'package:spiritometer/models/user.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+    runApp(MyApp());
+  }
+  
+  
 
 class MyApp extends StatelessWidget {
   @override
