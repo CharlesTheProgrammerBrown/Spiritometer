@@ -42,17 +42,13 @@ class RhapsodyBloc extends Bloc<RhapsodyEvent, RhapsodyState> {
   Stream<RhapsodyState> _mapUpdateRhapsodyEntryToState(
       RhapsodyEntryUpdated event) async* {
     await Future.delayed(Duration(milliseconds: 500));
-     Map<DateTime, List<dynamic>> _markedDateMap =  {
-  DateTime(2020, 8, 25): ['Rhapsody'],
-  DateTime(2020, 8, 26): ['Success'],
-  DateTime(2020, 8, 24): ['Valentine'],
-  DateTime(2020, 8, 21): ['Easter'],
-  DateTime(2020, 8, 22): ['Easter Monday'],
+    Map<DateTime, List<dynamic>> _markedDateMap = {};
 
-     };
-  
-  
+    event.rhapsodies.forEach((element) {
+      _markedDateMap[element.eventDate] = [element.title];
+    });
 
+//print(event.rhapsodies);
     yield RhapsodyLoaded(
         userRhapsodyModel: event.rhapsodies, markedDateMap: _markedDateMap);
   }
