@@ -10,13 +10,12 @@ class FirebaseUserRhapsodyDataRepository implements UserRhapsodyRepository {
   @override
   Future<String> addUserRhapsodyData(UserRhapsodyModel userRhapsodyData) async {
     final collection = await getCollection();
-    final String userId = await _authService.getCurrentUserId();
 
-    await collection.document(userId).setData(
-          userRhapsodyData.rhapsodyModelToEntity().toDocument(),
-        );
+    final doc = await collection.add(
+      userRhapsodyData.rhapsodyModelToEntity().toDocument(),
+    );
 
-    return userId;
+    return doc.documentID;
   }
 
   @override
