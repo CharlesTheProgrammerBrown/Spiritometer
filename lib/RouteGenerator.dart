@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/Profile.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
+import 'package:spiritometer/Screens/Pages/RhapsodyRecord.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import 'package:spiritometer/UI/CountDownTimer.dart';
 
@@ -48,6 +49,9 @@ class RouteGenerator {
 
       case '/schedule':
         return MaterialPageRoute(builder: (_) => PrayNow());
+
+        case '/rhapsodyRecord':
+        return MaterialPageRoute(builder: (_) => RhapsodyRecord());
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

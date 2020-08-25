@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 class UserRhapsodyEntity extends Equatable {
   final String title;
   final String note;
-  final Timestamp createdOn;
+  final DateTime eventDate;
 
   UserRhapsodyEntity({
     @required this.title,
     @required this.note,
-    this.createdOn,
+    @required this.eventDate,
   });
 
 //FROM Firebase document snapshot, place data into entity
@@ -22,7 +22,7 @@ class UserRhapsodyEntity extends Equatable {
     return UserRhapsodyEntity(
       title: snap.data['title'],
       note: snap.data['note'],
-      createdOn: snap.data['createdOn'],
+      eventDate: snap.data['eventDate'].toDate(),
     );
   }
 
@@ -30,19 +30,23 @@ class UserRhapsodyEntity extends Equatable {
 //json like format for firebase documents
 
   Map<String, Object> toDocument() {
-    return {'title': title, 'note': note, 'createdOn': Timestamp.now()};
+    return {
+    'title': title, 
+    'note': note, 
+    'eventDate': eventDate,
+    };
   }
 
   @override
   List<Object> get props => [
         title,
         note,
-        createdOn,
+        eventDate,
       ];
 
       @override 
       String toString() {
-        return 'UserRhapsodyEntity($title,$note,$createdOn)';
+        return 'UserRhapsodyEntity($title,$note,$eventDate)';
       }
 
 }

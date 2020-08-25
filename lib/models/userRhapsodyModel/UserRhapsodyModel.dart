@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyEntity.dart';
@@ -7,17 +6,19 @@ import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyEntity.dart';
 class UserRhapsodyModel extends Equatable {
   final String title;
   final String note;
-  final Timestamp createdOn;
+  final DateTime eventDate;
 
-  UserRhapsodyModel({this.title, this.note, this.createdOn});
+  UserRhapsodyModel({this.title, this.note, this.eventDate});
 
   UserRhapsodyModel copyWith({
     String title,
     String note,
+    DateTime eventDate,
   }) {
     return UserRhapsodyModel(
       title: title ?? this.title,
       note: note ?? this.note,
+      eventDate: eventDate?? this.eventDate,
     );
   }
 
@@ -25,6 +26,7 @@ class UserRhapsodyModel extends Equatable {
     return UserRhapsodyEntity(
       title: title,
       note: note,
+      eventDate: eventDate,
     );
   }
 
@@ -34,18 +36,18 @@ static UserRhapsodyModel rhapsodyModelFromEntity(UserRhapsodyEntity entity){
   return UserRhapsodyModel(
     title: entity.title,
     note: entity.note,
-    createdOn: entity.createdOn,
+    eventDate: entity.eventDate,
   );
 }
   @override
   List<Object> get props => [
         title,
         note,
-        createdOn,
+        eventDate,
       ];
 
   @override
   String toString() {
-    return 'RhapsodyModel($title,$note, $createdOn)';
+    return 'RhapsodyModel($title,$note, $eventDate)';
   }
 }
