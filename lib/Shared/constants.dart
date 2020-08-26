@@ -55,18 +55,22 @@ final boxDecoration = BoxDecoration(
   ),
 );
 
-final rorRecordTextStyle =
-    TextStyle(color: Colors.grey, fontFamily: 'OpenSans', fontSize: 17, letterSpacing: 2,);
+final rorRecordTextStyle = TextStyle(
+  color: Colors.grey,
+  fontFamily: 'OpenSans',
+  fontSize: 17,
+  letterSpacing: 2,
+);
 
 final roRBoxDecorationStyle = BoxDecoration(
-  
   color: Colors.white,
-  borderRadius: BorderRadius.horizontal(left: Radius.zero, right: Radius.zero ),
-  
-    );
-  
-  final roRNoteDecorationStyle = BoxDecoration(
+  borderRadius: BorderRadius.horizontal(left: Radius.zero, right: Radius.zero),
+);
+
+final roRNoteDecorationStyle = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.circular(14.0),
-  
-    );
+);
+
+final headerTextStyle =
+    TextStyle(letterSpacing: 1, fontFamily: "OpenSans", color: Colors.white);

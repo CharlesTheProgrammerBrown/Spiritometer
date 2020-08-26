@@ -39,6 +39,7 @@ class RhapsodyNavigation extends StatelessWidget {
             Color(0xFF8f94fb),
             Color(0xFFa17fe0),
           ],
+
           /* begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           stops: [0.1, 0.5, 0.9],*/

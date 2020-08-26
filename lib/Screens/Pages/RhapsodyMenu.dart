@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spiritometer/RhapsodyBloc/rhapsody_bloc.dart';
+import 'package:spiritometer/Shared/constants.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,14 +13,31 @@ class RhapsodyMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height / 3;
     return Scaffold(
-      floatingActionButton:  FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/rhapsodyRecord'),),
+      floatingActionButton:
+          BlocBuilder<RhapsodyBloc, RhapsodyState>(builder: (context, state) {
+        if (state is RhapsodyLoaded) {
+          // ignore: missing_return
+          return FloatingActionButton(
+              backgroundColor: Colors.orange,
+              child: Icon(Icons.add),
+              onPressed: () {
+                final result =
+                    eventDisplay(DateTime.now(), state.userRhapsodyModel);
+                result.isEmpty
+                    ? Navigator.pushNamed(context, '/rhapsodyRecord')
+                    : SnackBar(
+                        content: Text('Can only add an Article a day, '),
+                        duration: Duration(seconds: 5),
+                      );
+              });
+        } else
+          return Container();
+      }),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Padding(
           padding: const EdgeInsets.only(top: 17.0),
-          child: BackButton(),
+          child: BackButton(color: Colors.white),
         ),
         backgroundColor: Color(0xFF8f94fb),
         centerTitle: true,
@@ -26,8 +45,7 @@ class RhapsodyMenu extends StatelessWidget {
           padding: const EdgeInsets.only(top: 17.0),
           child: Text(
             "Rhapsody Calendar",
-            style: TextStyle(
-                letterSpacing: 1, fontFamily: "OpenSans", color: Colors.white),
+            style: headerTextStyle,
           ),
         ),
       ),
@@ -45,7 +63,9 @@ class RhapsodyMenu extends StatelessWidget {
                   // ignore: missing_return
                   builder: (context, state) {
                     if (state is RhapsodyLoaded) {
-                      return(Calendar(userRhapsodyModel:state.userRhapsodyModel, markedDateMap:state.markedDateMap));
+                      return (Calendar(
+                          userRhapsodyModel: state.userRhapsodyModel,
+                          markedDateMap: state.markedDateMap));
                     } else if (state is RhapsodyLoading)
                       return calendarCarouselLoading(_height);
                     else
@@ -74,8 +94,6 @@ Widget calendarCarouselLoading(double height) {
     ],
   );
 }
-
-
 
 class RhapsodyCreateMessage extends StatelessWidget {
   const RhapsodyCreateMessage({
@@ -139,10 +157,10 @@ class RhapsodyCreateMessage extends StatelessWidget {
 }
 
 class Calendar extends StatefulWidget {
-final List<UserRhapsodyModel> userRhapsodyModel;
-final Map<DateTime , dynamic> markedDateMap;
+  final List<UserRhapsodyModel> userRhapsodyModel;
+  final Map<DateTime, List<dynamic>> markedDateMap;
 
-Calendar({this.userRhapsodyModel, this.markedDateMap});
+  Calendar({this.userRhapsodyModel, this.markedDateMap});
 
   @override
   _CalendarState createState() => _CalendarState();
@@ -150,17 +168,18 @@ Calendar({this.userRhapsodyModel, this.markedDateMap});
 
 class _CalendarState extends State<Calendar> {
   CalendarController _calendarController;
+  DateTime selectedDate;
 
   @override
   void initState() {
-    
     super.initState();
     _calendarController = CalendarController();
+    // selectedDate = {};
   }
 
-@override
+  @override
   void dispose() {
-     _calendarController.dispose();
+    _calendarController.dispose();
     super.dispose();
   }
 
@@ -171,73 +190,117 @@ class _CalendarState extends State<Calendar> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TableCalendar(
-                        calendarController: _calendarController,
-                        events:widget.markedDateMap ,
-                        initialCalendarFormat: CalendarFormat.week,
-                        availableCalendarFormats: const { CalendarFormat.twoWeeks : '2 weeks', CalendarFormat.week : 'Week'},
-                        calendarStyle: CalendarStyle(
-                            canEventMarkersOverflow: true,
-                            todayColor: Colors.orange,
-                            selectedColor: Theme.of(context).primaryColor,
-                            todayStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                                color: Colors.white),),
-                        headerStyle: HeaderStyle(
-                          centerHeaderTitle: true,
-                          formatButtonDecoration: BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          formatButtonTextStyle: TextStyle(color: Colors.white),
-                          formatButtonShowsNext: false,
-                        ),
-                        startingDayOfWeek: StartingDayOfWeek.monday,
-                        onDaySelected: (date, events) {
-                          setState(() {
-                            //_selectedEvents = events;
-                          });
-                        },
-                        builders: CalendarBuilders(
-                          selectedDayBuilder: (context, date, events) => Container(
-                              margin: const EdgeInsets.all(4.0),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(color: Colors.white),
-                              )),
-                          todayDayBuilder: (context, date, events) => Container(
-                              margin: const EdgeInsets.all(4.0),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(color: Colors.white),
-                              )),
-                        ),
-                       
-                      ),
- // ..._selectedEvents.map((event) => ListTile(
-                  //       title: Text(event.title),
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (_) => EventDetailsPage(
-                  //                       event: event,
-                  //                     )));     
-        
-         
+          calendarController: _calendarController,
+          events: widget.markedDateMap,
+          initialCalendarFormat: CalendarFormat.week,
+          availableCalendarFormats: const {
+            CalendarFormat.twoWeeks: '2 weeks',
+            CalendarFormat.week: 'Week',
+          },
+          calendarStyle: CalendarStyle(
+            canEventMarkersOverflow: true,
+            todayColor: Colors.orange,
+            selectedColor: Theme.of(context).primaryColor,
+            todayStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+                color: Colors.white),
+          ),
+          headerStyle: HeaderStyle(
+            centerHeaderTitle: true,
+            formatButtonDecoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            formatButtonTextStyle: TextStyle(color: Colors.white),
+            formatButtonShowsNext: false,
+          ),
+          startingDayOfWeek: StartingDayOfWeek.sunday,
+          onDaySelected: (date, events) {
+            setState(() {
+              selectedDate = date;
+              //eventDisplay(selectedDate, widget.userRhapsodyModel);
+            });
+          },
+          builders: CalendarBuilders(
+            selectedDayBuilder: (context, date, events) => Container(
+                margin: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Text(
+                  date.day.toString(),
+                  style: TextStyle(color: Colors.white),
+                )),
+            todayDayBuilder: (context, date, events) => Container(
+                margin: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Text(
+                  date.day.toString(),
+                  style: TextStyle(color: Colors.white),
+                )),
+          ),
+        ),
+        // ..._selectedEvents.map((event) => ListTile(
+        //       title: Text(event.title),
+        //       onTap: () {
+        //         Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //                 builder: (_) => EventDetailsPage(
+        //                       event: event,
+        //                     )));
+        SizedBox(height: 40),
+        EventListDisplay(
+            selectedDate: selectedDate, rhapsodyList: widget.userRhapsodyModel)
       ],
     );
-                 
-    
   }
-
 }
-    
+
+class EventListDisplay extends StatelessWidget {
+  const EventListDisplay({
+    Key key,
+    this.selectedDate,
+    this.rhapsodyList,
+  }) : super(key: key);
+
+  final DateTime selectedDate;
+  final List<UserRhapsodyModel> rhapsodyList;
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredRhapsody = eventDisplay(selectedDate, rhapsodyList);
+    return Container(
+      height: 400,
+      child: ListView.builder(
+          itemCount: filteredRhapsody.length,
+          itemBuilder: (BuildContext eventContext, int index) {
+            return Card(
+              color: Color(0xFF8f94fb),
+              child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                  title: Text(filteredRhapsody[index].title),
+                  subtitle:
+                      Text("{Rhapsody Entry for ${selectedDate.toString()}}")),
+            );
+          }),
+    );
+  }
+}
+
+List<UserRhapsodyModel> eventDisplay(
+    DateTime selectedDate, List<UserRhapsodyModel> listRhapsodies) {
+  return listRhapsodies
+      .where(
+        (rhapsody) => (rhapsody.eventDate.day == selectedDate.day &&
+            rhapsody.eventDate.year == selectedDate.year &&
+            rhapsody.eventDate.month == selectedDate.month),
+      )
+      .toList();
+}
