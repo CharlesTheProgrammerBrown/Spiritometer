@@ -10,10 +10,8 @@ import 'package:spiritometer/models/user.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-    runApp(MyApp());
-  }
-  
-  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -30,6 +28,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             theme: ThemeData(
               scaffoldBackgroundColor: Colors.grey[50],
+              primaryColor: Color(0xFF8f94fb),
+
               //Color(0xffF5F5F5)
             ),
             debugShowCheckedModeBanner: false,
