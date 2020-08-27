@@ -7,6 +7,7 @@ import 'package:spiritometer/Shared/constants.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class RhapsodyMenu extends StatelessWidget {
   @override
@@ -53,27 +54,29 @@ class RhapsodyMenu extends StatelessWidget {
         child: Container(
           // decoration: boxDecoration,
           color: Colors.white54,
-          child: Column(
-            children: [
-              Container(
-                //decoration: boxDecoration,
-                //color: Colors.blue,
-                //margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: BlocBuilder<RhapsodyBloc, RhapsodyState>(
-                  // ignore: missing_return
-                  builder: (context, state) {
-                    if (state is RhapsodyLoaded) {
-                      return (Calendar(
-                          userRhapsodyModel: state.userRhapsodyModel,
-                          markedDateMap: state.markedDateMap));
-                    } else if (state is RhapsodyLoading)
-                      return calendarCarouselLoading(_height);
-                    else
-                      return Container();
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  //decoration: boxDecoration,
+                  //color: Colors.blue,
+                  //margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: BlocBuilder<RhapsodyBloc, RhapsodyState>(
+                    // ignore: missing_return
+                    builder: (context, state) {
+                      if (state is RhapsodyLoaded) {
+                        return (Calendar(
+                            userRhapsodyModel: state.userRhapsodyModel,
+                            markedDateMap: state.markedDateMap));
+                      } else if (state is RhapsodyLoading)
+                        return calendarCarouselLoading(_height);
+                      else
+                        return Container();
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -186,16 +189,16 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TableCalendar(
           calendarController: _calendarController,
           events: widget.markedDateMap,
           initialCalendarFormat: CalendarFormat.week,
           availableCalendarFormats: const {
-            CalendarFormat.twoWeeks: '2 weeks',
             CalendarFormat.week: 'Week',
+            CalendarFormat.twoWeeks: 'twoWeeks',
           },
           calendarStyle: CalendarStyle(
             canEventMarkersOverflow: true,
@@ -282,25 +285,40 @@ class EventListDisplay extends StatelessWidget {
           itemCount: filteredRhapsody.length,
           itemBuilder: (BuildContext eventContext, int index) {
             return Card(
+              elevation: 5.0,
               color: Color(0xFF8f94fb),
               child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
-                  title: Text(filteredRhapsody[index].title),
-                  subtitle:
-                      Text("{Rhapsody Entry for ${selectedDate.toString()}}")),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                title: Text(
+                  filteredRhapsody[index].title,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  "Rhapsody Entry for ${dateFormat(selectedDate)}",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             );
           }),
     );
   }
 }
 
+String dateFormat(DateTime date) {
+  String dateInString = DateFormat('yyyy-MM-dd – kk:mm:ss').format(date);
+  return dateInString;
+}
+
 List<UserRhapsodyModel> eventDisplay(
     DateTime selectedDate, List<UserRhapsodyModel> listRhapsodies) {
+  if (selectedDate == null) {
+    return [];
+  }
   return listRhapsodies
       .where(
-        (rhapsody) => (rhapsody.eventDate.day == selectedDate.day &&
-            rhapsody.eventDate.year == selectedDate.year &&
-            rhapsody.eventDate.month == selectedDate.month),
+        (rhapsody) => (rhapsody.eventDate?.day == selectedDate?.day &&
+            rhapsody.eventDate?.year == selectedDate?.year &&
+            rhapsody.eventDate?.month == selectedDate?.month),
       )
       .toList();
 }
