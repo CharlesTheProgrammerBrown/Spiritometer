@@ -33,8 +33,9 @@ final uiPopUpContentStyle = TextStyle(fontSize: 18, fontFamily: 'OpenSans');
 final uiHomeContentStyle = TextStyle(
     fontSize: 15,
     letterSpacing: 2.0,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'OpenSans');
+    fontWeight: FontWeight.w500,
+    fontFamily: 'OpenSans',
+    color: Colors.white);
 
 final uiTextStyle = TextStyle(
     color: Colors.black,

@@ -1,12 +1,12 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spiritometer/RhapsodyBloc/rhapsody_bloc.dart';
 import 'package:spiritometer/Shared/constants.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class RhapsodyMenu extends StatelessWidget {
   @override
@@ -21,14 +21,41 @@ class RhapsodyMenu extends StatelessWidget {
               backgroundColor: Colors.orange,
               child: Icon(Icons.add),
               onPressed: () {
+                
                 final result =
                     eventDisplay(DateTime.now(), state.userRhapsodyModel);
+
+                   
                 result.isEmpty
                     ? Navigator.pushNamed(context, '/rhapsodyRecord')
-                    : SnackBar(
-                        content: Text('Can only add an Article a day, '),
-                        duration: Duration(seconds: 5),
-                      );
+                    : { Flushbar(
+      
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      reverseAnimationCurve: Curves.decelerate,
+      forwardAnimationCurve: Curves.elasticOut,
+      backgroundColor: Colors.red,
+      boxShadows: [BoxShadow(color: Colors.blue[800], offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+      backgroundGradient: LinearGradient(colors: [Colors.blueGrey, Colors.black]),
+      isDismissible: true,
+      duration: Duration(seconds: 5),
+      icon: Icon(
+        Icons.info_outline,
+        color: Colors.white,
+      ),
+      
+      showProgressIndicator: true,
+      progressIndicatorBackgroundColor: Colors.blueGrey,
+      titleText: Text(
+        "Rhapsody Note Limit",
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.yellow[600], fontFamily: "ShadowsIntoLightTwo"),
+      ),
+      messageText: Text(
+        "One article per day. Delete or Edit today's article in Notes Section!",
+        style: TextStyle(fontSize: 18.0, color: Colors.green, fontFamily: "ShadowsIntoLightTwo"),
+      ),
+          )..show(context)};
               });
         } else
           return Container();
@@ -53,27 +80,29 @@ class RhapsodyMenu extends StatelessWidget {
         child: Container(
           // decoration: boxDecoration,
           color: Colors.white54,
-          child: Column(
-            children: [
-              Container(
-                //decoration: boxDecoration,
-                //color: Colors.blue,
-                //margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: BlocBuilder<RhapsodyBloc, RhapsodyState>(
-                  // ignore: missing_return
-                  builder: (context, state) {
-                    if (state is RhapsodyLoaded) {
-                      return (Calendar(
-                          userRhapsodyModel: state.userRhapsodyModel,
-                          markedDateMap: state.markedDateMap));
-                    } else if (state is RhapsodyLoading)
-                      return calendarCarouselLoading(_height);
-                    else
-                      return Container();
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  //decoration: boxDecoration,
+                  //color: Colors.blue,
+                  //margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: BlocBuilder<RhapsodyBloc, RhapsodyState>(
+                    // ignore: missing_return
+                    builder: (context, state) {
+                      if (state is RhapsodyLoaded) {
+                        return (Calendar(
+                            userRhapsodyModel: state.userRhapsodyModel,
+                            markedDateMap: state.markedDateMap));
+                      } else if (state is RhapsodyLoading)
+                        return calendarCarouselLoading(_height);
+                      else
+                        return Container();
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -93,67 +122,6 @@ Widget calendarCarouselLoading(double height) {
       ),
     ],
   );
-}
-
-class RhapsodyCreateMessage extends StatelessWidget {
-  const RhapsodyCreateMessage({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5.0),
-                  child: Center(
-                    child: Text(
-                      'Welcome to the Rhapsody Study Tracker',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 1),
-                Icon(
-                  LineAwesomeIcons.laugh_face_with_beaming_eyes,
-                  color: Colors.blueAccent,
-                  size: 20,
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: RichText(
-                  text: TextSpan(
-                      text: 'Read today\'s Rhapsody of Realities?',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: "OpenSans"),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: ' Create a Rhapsody Note Here',
-                            style: TextStyle(
-                                color: Colors.blueAccent, fontSize: 17),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // navigate to desired screen
-                              })
-                      ]),
-                ),
-              ),
-            ),
-          ],
-        ));
-  }
 }
 
 class Calendar extends StatefulWidget {
@@ -186,16 +154,16 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TableCalendar(
           calendarController: _calendarController,
           events: widget.markedDateMap,
           initialCalendarFormat: CalendarFormat.week,
           availableCalendarFormats: const {
-            CalendarFormat.twoWeeks: '2 weeks',
             CalendarFormat.week: 'Week',
+            CalendarFormat.twoWeeks: 'twoWeeks',
           },
           calendarStyle: CalendarStyle(
             canEventMarkersOverflow: true,
@@ -282,25 +250,43 @@ class EventListDisplay extends StatelessWidget {
           itemCount: filteredRhapsody.length,
           itemBuilder: (BuildContext eventContext, int index) {
             return Card(
+              elevation: 5.0,
               color: Color(0xFF8f94fb),
               child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
-                  title: Text(filteredRhapsody[index].title),
-                  subtitle:
-                      Text("{Rhapsody Entry for ${selectedDate.toString()}}")),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30),
+                title: Text(
+                  "ROR TOPIC: ${filteredRhapsody[index].title.toUpperCase()}",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Rhapsody Entry for ${dateFormat(selectedDate)}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
             );
           }),
     );
   }
 }
 
+String dateFormat(DateTime date) {
+  String dateInString = DateFormat('yyyy-MM-dd').format(date);
+  return dateInString;
+}
+
 List<UserRhapsodyModel> eventDisplay(
     DateTime selectedDate, List<UserRhapsodyModel> listRhapsodies) {
+  if (selectedDate == null) {
+    return [];
+  }
   return listRhapsodies
       .where(
-        (rhapsody) => (rhapsody.eventDate.day == selectedDate.day &&
-            rhapsody.eventDate.year == selectedDate.year &&
-            rhapsody.eventDate.month == selectedDate.month),
+        (rhapsody) => (rhapsody.eventDate?.day == selectedDate?.day &&
+            rhapsody.eventDate?.year == selectedDate?.year &&
+            rhapsody.eventDate?.month == selectedDate?.month),
       )
       .toList();
 }
