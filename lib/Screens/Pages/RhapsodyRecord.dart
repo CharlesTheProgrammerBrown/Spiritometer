@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:spiritometer/Shared/constants.dart';
 import 'package:spiritometer/models/userRhapsodyModel/FirebaseUserRhapsodyDataRepository.dart';
@@ -85,38 +84,33 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
 
   @override
   Widget build(BuildContext contextB) {
-    final double width = MediaQuery.of(context).size.width / 2;
     return WillPopScope(
       child: Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: BackButton(
+            color: Colors.white,
+          ),
           title: Text(
             'RHAPSODY STUDY',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              letterSpacing: 1,
-              color: Colors.white,
-              decorationStyle: TextDecorationStyle.solid,
+            style: headerTextStyle,
 
-              // decorationColor: Colors.deepPurple),
-            ),
+            // decorationColor: Colors.deepPurple),
           ),
-          backgroundColor: Color(0xFF8f94fb),
         ),
+//          backgroundColor: Color(0xFF8f94fb),
+
         body: Builder(
           builder: (context) {
             return Column(
               children: [
                 //2nd element
-
-                SizedBox(height: 10),
-
                 Form(
                   key: _formKey,
-                  child: Container(
-                    alignment: Alignment.center,
+                  child: Expanded(
+                    //alignment: Alignment.center,
                     child: ListView(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       //crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +118,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 15.0),
+                              horizontal: 16.0, vertical: 40.0),
                           child: Container(
                             color: Colors.white,
                             child: TextFormField(
@@ -141,8 +135,9 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding:
-                                    EdgeInsets.only(top: 14.0, left: 10.0),
-                                hintText: 'Add Title',
+                                    EdgeInsets.only(top: 10.0, left: 10.0),
+                                //hintText: 'Add Title',
+                                labelText: "Title",
                                 hintStyle: rorRecordTextStyle,
                                 //fillColor: Colors.white,
                                 //filled: true
@@ -156,6 +151,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                           child: Container(
                             color: Colors.white,
                             child: TextFormField(
+                              autocorrect: true,
                               controller: noteController,
                               validator: (value) =>
                                   (value.isEmpty) ? "Please Enter Note" : null,
@@ -165,56 +161,59 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                               cursorColor: Colors.black,
                               style: rorRecordTextStyle,
                               textInputAction: TextInputAction.newline,
-                              minLines: 5,
+                              minLines: 7,
                               maxLines: null,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding:
-                                    EdgeInsets.only(top: 14.0, left: 10.0),
-                                hintText: 'Note',
+                                    EdgeInsets.only(top: 10.0, left: 10.0),
+                                //hintText: 'Note',
                                 hintStyle: rorRecordTextStyle,
+                                labelText: "NOTES",
                               ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Card(
-                          color: Color(0xFF8f94fb),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 20),
-                          child: ListTile(
-                            title: Text(
-                              "Pick Date (YYYY-MM-DD) \n ",
-                              textAlign: TextAlign.center,
-                            ),
-                            subtitle: Text(
-                              "Current Date: ${_eventDate.year} - ${_eventDate.month} - ${_eventDate.day}",
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.justify,
-                            ),
-                            onTap: () async {
-                              DateTime picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: _eventDate,
-                                  firstDate: DateTime(_eventDate.year - 5),
-                                  lastDate: DateTime(_eventDate.year + 5));
-                              if (picked != null) {
-                                setState(() {
-                                  _eventDate = picked;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
+                        // Card(
+                        //   color: Color(0xFF8f94fb),
+                        //   margin: EdgeInsets.symmetric(
+                        //       horizontal: 50, vertical: 20),
+                        //   child: ListTile(
+                        //     title: Text(
+                        //       "Pick Date (YYYY-MM-DD) \n ",
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //     subtitle: Text(
+                        //       "Current Date: ${_eventDate.year} - ${_eventDate.month} - ${_eventDate.day}",
+                        //       style: TextStyle(fontSize: 16),
+                        //       textAlign: TextAlign.justify,
+                        //     ),
+                        //     onTap: () async {
+                        //       DateTime picked = await showDatePicker(
+                        //         context: context,
+                        //         initialDate: _eventDate,
+                        //         firstDate: DateTime(_eventDate.year - 5),
+                        //         lastDate: DateTime(_eventDate.year + 5),
+                        //       );
+                        //       if (picked != null) {
+                        //         setState(() {
+                        //           _eventDate = picked;
+                        //         });
+                        //       }
+                        //     },
+                        //   ),
+                        // ),
+                        // SizedBox(height: 10.0),
                         processing
                             ? Center(child: CircularProgressIndicator())
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                    horizontal: 100, vertical: 20),
                                 child: FlatButton.icon(
+                                  padding: EdgeInsets.symmetric(vertical: 16),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderRadius: BorderRadius.circular(23.0),
                                   ),
                                   color: Colors.amberAccent,
                                   onPressed: () async {
@@ -225,7 +224,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                         UserRhapsodyModel(
                                             title: titleController.text,
                                             note: noteController.text,
-                                            eventDate: _eventDate),
+                                            eventDate: DateTime.now()),
                                       );
 
                                       Navigator.pop(context);
@@ -236,10 +235,11 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                   },
                                   icon: Icon(
                                     Icons.save,
-                                    size: 15,
+                                    size: 17,
                                   ),
                                   label: Text(
                                     'Save',
+                                    style: TextStyle(fontSize: 17),
                                   ),
                                 ),
                               ),
