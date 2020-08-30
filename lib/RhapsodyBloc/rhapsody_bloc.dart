@@ -33,6 +33,8 @@ class RhapsodyBloc extends Bloc<RhapsodyEvent, RhapsodyState> {
     _rhapsodySubscription?.cancel();
     _rhapsodySubscription =
         userRhapsodyRepository.getListOfUserRhapsodyData().listen((rhapsodies) {
+          //filter according to dates
+          rhapsodies.sort((a,b)=>b.eventDate.compareTo(a.eventDate));
       add(
         RhapsodyEntryUpdated(rhapsodies),
       );
