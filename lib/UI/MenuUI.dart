@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spiritometer/Screens/Pages/ErrorPage.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyNavigation.dart';
@@ -47,6 +46,7 @@ class MenuLayout extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: OutlineGradientButton(
+              inkWell: true,
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
               elevation: 0.0,
               child: Container(
@@ -68,7 +68,7 @@ class MenuLayout extends StatelessWidget {
                 ],
               ),
               radius: Radius.circular(30),
-              strokeWidth: 5),
+              strokeWidth: 25),
         );
       },
     );
