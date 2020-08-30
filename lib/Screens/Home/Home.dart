@@ -13,6 +13,7 @@ class Home extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: StreamBuilder(
               stream: _userDataRepository.getCurrentUserData(),
