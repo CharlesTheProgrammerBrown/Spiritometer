@@ -25,6 +25,11 @@ class RhapsodyBloc extends Bloc<RhapsodyEvent, RhapsodyState> {
       yield* _mapRhapsodyEntryLoadToState();
     } else if (event is RhapsodyEntryUpdated) {
       yield* _mapUpdateRhapsodyEntryToState(event);
+    }else if (event is RhapsodyDeletedEvent)
+    {
+   await userRhapsodyRepository.deleteUserRhapsodyData(event.rhapsody);
+   yield state;
+
     }
   }
 
@@ -55,3 +60,5 @@ class RhapsodyBloc extends Bloc<RhapsodyEvent, RhapsodyState> {
         userRhapsodyModel: event.rhapsodies, markedDateMap: _markedDateMap);
   }
 }
+
+
