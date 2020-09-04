@@ -43,9 +43,9 @@ class FirebaseUserRhapsodyDataRepository implements UserRhapsodyRepository {
   Future<void> updateUserRhapsodyData(
       UserRhapsodyModel updateUserRhapsodyData) async {
     final collection = await getCollection();
-    final String userId = await _authService.getCurrentUserId();
+   
 
-    return collection.document(userId).updateData(
+    return collection.document(updateUserRhapsodyData.id).updateData(
         updateUserRhapsodyData.rhapsodyModelToEntity().toDocument());
   }
 
