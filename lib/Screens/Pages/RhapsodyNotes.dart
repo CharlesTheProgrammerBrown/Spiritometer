@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:spiritometer/RhapsodyBloc/rhapsody_bloc.dart';
+import 'package:spiritometer/Screens/Pages/EditRhapsodyRecord.dart';
 import 'package:spiritometer/Shared/constants.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 
@@ -148,30 +149,45 @@ class EventListDisplayState extends State<EventListDisplay> {
 
                background: Container(color: Colors.red),
                           child: Card(
+                            
+
                 elevation: 2.0,
                 color: Color(0xFF8f94fb),
-                child: ExpansionTile(children: [
-                  Text(widget.rhapsodyList[index].note,
-                  style:rorRecordTextStyle.copyWith(color:Colors.white),) ,
-                ],
+                child: GestureDetector(
+                  onLongPress: (){
+                   
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              EditRhapsodyRecord(widget.rhapsodyList[index])));
+                   
+                  },
+                                  child: ExpansionTile(
+                    children: 
+                  [
+                    Text(widget.rhapsodyList[index].note,
+                    style:rorRecordTextStyle.copyWith(color:Colors.white),) ,
+                  ],
 
-                backgroundColor: Colors.black,
-                leading: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  leading: CircleAvatar(
   backgroundImage: AssetImage("assets/images/RhapsodyLogo.png"), // no matter how big it is, it won't overflow
 ),
-                
-                initiallyExpanded: false,
-                childrenPadding: EdgeInsets.symmetric(horizontal:10),
-                  title: Text(
-                    "ROR TOPIC: ${widget.rhapsodyList[index].title.toUpperCase()}",
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                     child: Text(
-                       "Rhapsody Entry for ${dateFormat(widget.rhapsodyList[index].eventDate)}",
-                       style: TextStyle(fontSize: 16),
-                     ),
+                  
+                  initiallyExpanded: false,
+                  childrenPadding: EdgeInsets.symmetric(horizontal:10),
+                    title: Text(
+                      "ROR TOPIC: ${widget.rhapsodyList[index].title.toUpperCase()}",
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                       child: Text(
+                         "Rhapsody Entry for ${dateFormat(widget.rhapsodyList[index].eventDate)}",
+                         style: TextStyle(fontSize: 16),
+                       ),
+                    ),
                   ),
                 ),
               ),
