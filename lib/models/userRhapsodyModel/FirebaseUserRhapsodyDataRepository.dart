@@ -22,9 +22,9 @@ class FirebaseUserRhapsodyDataRepository implements UserRhapsodyRepository {
   Future<void> deleteUserRhapsodyData(
       UserRhapsodyModel userRhapsodyData) async {
     final collection = await getCollection();
-    final String userId = await _authService.getCurrentUserId();
+   // final String userId = await _authService.getCurrentUserId();
 
-    return collection.document(userId).delete();
+    return collection.document(userRhapsodyData.id).delete();
   }
 
 //yield continuous stream of returns
@@ -43,9 +43,9 @@ class FirebaseUserRhapsodyDataRepository implements UserRhapsodyRepository {
   Future<void> updateUserRhapsodyData(
       UserRhapsodyModel updateUserRhapsodyData) async {
     final collection = await getCollection();
-    final String userId = await _authService.getCurrentUserId();
+   
 
-    return collection.document(userId).updateData(
+    return collection.document(updateUserRhapsodyData.id).updateData(
         updateUserRhapsodyData.rhapsodyModelToEntity().toDocument());
   }
 

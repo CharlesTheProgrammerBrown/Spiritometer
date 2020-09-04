@@ -13,6 +13,7 @@ class RhapsodyLoading extends RhapsodyState {}
 class RhapsodyLoaded extends RhapsodyState {
   final List<UserRhapsodyModel> userRhapsodyModel;
   final Map<DateTime, List<dynamic>> markedDateMap;
+  
 
   @override
   String toString() {

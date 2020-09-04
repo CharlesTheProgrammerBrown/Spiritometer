@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 //and vice-versa
 
 class UserRhapsodyEntity extends Equatable {
+  final String id;
   final String title;
   final String note;
   final DateTime eventDate;
 
   UserRhapsodyEntity({
+    @required this.id,
     @required this.title,
     @required this.note,
     @required this.eventDate,
@@ -20,6 +22,7 @@ class UserRhapsodyEntity extends Equatable {
 //later to be converted to RhapsodyModel
   static UserRhapsodyEntity fromSnapshot(DocumentSnapshot snap) {
     return UserRhapsodyEntity(
+      id: snap.documentID,
       title: snap.data['title'],
       note: snap.data['note'],
       eventDate: snap.data['eventDate'].toDate(),
@@ -39,6 +42,7 @@ class UserRhapsodyEntity extends Equatable {
 
   @override
   List<Object> get props => [
+    id,
         title,
         note,
         eventDate,
@@ -46,7 +50,7 @@ class UserRhapsodyEntity extends Equatable {
 
       @override 
       String toString() {
-        return 'UserRhapsodyEntity($title,$note,$eventDate)';
+        return 'UserRhapsodyEntity($id,$title,$note,$eventDate)';
       }
 
 }

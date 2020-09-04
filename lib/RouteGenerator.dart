@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:spiritometer/Screens/Pages/EditRhapsodyRecord.dart';
 import 'package:spiritometer/Screens/Pages/ErrorPage.dart';
 import 'package:spiritometer/Screens/Pages/PrayNow.dart';
 import 'package:spiritometer/Screens/Pages/Profile.dart';
@@ -8,6 +9,7 @@ import 'package:spiritometer/Screens/Pages/RhapsodyMenu.dart';
 import 'package:spiritometer/Screens/Pages/RhapsodyRecord.dart';
 import 'package:spiritometer/Screens/wrapper.dart';
 import 'package:spiritometer/UI/CountDownTimer.dart';
+import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 
 import 'Screens/Home/Home.dart';
 import 'Screens/Pages/RhapsodyNavigation.dart';
@@ -19,6 +21,8 @@ class RouteGenerator {
   static get time => null;
 
   static List<File> get pathFiles => null;
+
+  static UserRhapsodyModel get rhapsodyToEdit => null;
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //data you're passing
@@ -60,6 +64,9 @@ class RouteGenerator {
 
       case '/rhapsodyRecord':
         return MaterialPageRoute(builder: (_) => RhapsodyRecord());
+
+      case '/editRhapsodyRecord':
+      return MaterialPageRoute(builder: (_)=>EditRhapsodyRecord(rhapsodyToEdit));
 
       default:
         // If there is no such named route in the switch statement, e.g. /third

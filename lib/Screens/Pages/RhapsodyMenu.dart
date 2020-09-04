@@ -253,6 +253,9 @@ class EventListDisplay extends StatelessWidget {
               elevation: 5.0,
               color: Color(0xFF8f94fb),
               child: ListTile(
+                 leading: CircleAvatar(
+  backgroundImage: AssetImage("assets/images/RhapsodyLogo.png"), // no matter how big it is, it won't overflow
+),
                 contentPadding: EdgeInsets.symmetric(horizontal: 30),
                 title: Text(
                   "ROR TOPIC: ${filteredRhapsody[index].title.toUpperCase()}",

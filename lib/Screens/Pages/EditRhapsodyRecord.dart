@@ -4,21 +4,25 @@ import 'package:spiritometer/models/userRhapsodyModel/FirebaseUserRhapsodyDataRe
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyModel.dart';
 import 'package:spiritometer/models/userRhapsodyModel/UserRhapsodyRepository.dart';
 
-class RhapsodyRecord extends StatefulWidget {
+class EditRhapsodyRecord extends StatefulWidget {
+  final UserRhapsodyModel rhapsodytoEdit;
+
+  EditRhapsodyRecord(this.rhapsodytoEdit);
+
   @override
-  _RhapsodyRecordState createState() => _RhapsodyRecordState();
+  _EditRhapsodyRecordState createState() => _EditRhapsodyRecordState();
 }
 
-class _RhapsodyRecordState extends State<RhapsodyRecord> {
+class _EditRhapsodyRecordState extends State<EditRhapsodyRecord> {
   //get context => null;
 
   final UserRhapsodyRepository _firebaseUserRhapsodyDataRepository =
       FirebaseUserRhapsodyDataRepository();
-  String title = '';
-  String note = '';
+  String title ='' ;
+  String note = '' ;
   final titleController = TextEditingController();
   final noteController = TextEditingController();
-  
+  // DateTime _eventDate;
   final _formKey = GlobalKey<FormState>();
 
   bool showProgressIndicator = true;
@@ -29,7 +33,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
     super.initState();
 
     processing = false;
-  
+    //_eventDate = DateTime.now();
     titleController.addListener(_updateTitleValue);
     noteController.addListener(_updateNoteValue);
   }
@@ -84,6 +88,8 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
 
   @override
   Widget build(BuildContext contextB) {
+    noteController.text =widget.rhapsodytoEdit.note;
+    titleController.text =widget.rhapsodytoEdit.title;
     return WillPopScope(
       child: Scaffold(
         backgroundColor: Colors.grey[300],
@@ -94,7 +100,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
             color: Colors.white,
           ),
           title: Text(
-            'RHAPSODY STUDY NOTES',
+            'EDIT RHAPSODY STUDY NOTES',
             style: headerTextStyle,
 
             // decorationColor: Colors.deepPurple),
@@ -122,6 +128,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                           child: Container(
                             color: Colors.white,
                             child: TextFormField(
+                             
                               controller: titleController,
                               validator: (value) =>
                                   (value.isEmpty) ? "Please Enter title" : null,
@@ -137,7 +144,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                 contentPadding:
                                     EdgeInsets.only(top: 10.0, left: 10.0),
                                 //hintText: 'Add Title',
-                                labelText: "Title",
+                                labelText: "Edit Title",
                                 hintStyle: rorRecordTextStyle,
                                 //fillColor: Colors.white,
                                 //filled: true
@@ -151,6 +158,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                           child: Container(
                             color: Colors.white,
                             child: TextFormField(
+                              
                               autocorrect: true,
                               controller: noteController,
                               validator: (value) =>
@@ -169,7 +177,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                     EdgeInsets.only(top: 10.0, left: 10.0),
                                 //hintText: 'Note',
                                 hintStyle: rorRecordTextStyle,
-                                labelText: "NOTES",
+                                labelText: "Edit Notes",
                               ),
                             ),
                           ),
@@ -177,7 +185,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                         const SizedBox(height: 10.0),
                         
                         processing
-                            ? Center(child: CircularProgressIndicator())
+                            ? Center(child: CircularProgressIndicator(backgroundColor: Colors.yellow,))
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 100, vertical: 20),
@@ -189,36 +197,37 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                   color: Colors.amberAccent,
                                   onPressed: () async {
                                     if (_formKey.currentState.validate()) {
-                                     setState(() {
+                                      setState(() {
                                         processing = true;
                                       });
+                                      //processing = true;
                                       await _firebaseUserRhapsodyDataRepository
-                                          .addUserRhapsodyData(
+                                          .updateUserRhapsodyData(
                                         UserRhapsodyModel(
+                                          id: widget.rhapsodytoEdit.id,
                                             title: titleController.text,
                                             note: noteController.text,
-                                            eventDate: DateTime.now()),
+                                            eventDate: widget.rhapsodytoEdit.eventDate
+                                            ),
                                       ).then((value){
  Navigator.pop(context);
                                       setState(() {
-                                        Future.delayed(Duration(seconds: 4)).then((value) =>  processing = false);
+                                       Future.delayed(Duration(seconds: 4)).then((value) =>  processing = false);
+                                       
                                       });
-                                      Navigator.pop(context);
                                     }).catchError((e){
 Navigator.pushNamed(context, '/errorPage');
                                     });
                                       
 
-                             
-                                    }
-                                     
+                                  }
                                   },
                                   icon: Icon(
                                     Icons.save,
                                     size: 17,
                                   ),
                                   label: Text(
-                                    'Save',
+                                    'Update',
                                     style: TextStyle(fontSize: 17),
                                   ),
                                 ),
