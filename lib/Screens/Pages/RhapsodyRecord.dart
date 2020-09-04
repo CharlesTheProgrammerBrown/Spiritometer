@@ -18,7 +18,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
   String note = '';
   final titleController = TextEditingController();
   final noteController = TextEditingController();
-  DateTime _eventDate;
+  
   final _formKey = GlobalKey<FormState>();
 
   bool showProgressIndicator = true;
@@ -29,7 +29,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
     super.initState();
 
     processing = false;
-    _eventDate = DateTime.now();
+  
     titleController.addListener(_updateTitleValue);
     noteController.addListener(_updateNoteValue);
   }
@@ -94,7 +94,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
             color: Colors.white,
           ),
           title: Text(
-            'RHAPSODY STUDY',
+            'RHAPSODY STUDY NOTES',
             style: headerTextStyle,
 
             // decorationColor: Colors.deepPurple),
@@ -175,36 +175,7 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        // Card(
-                        //   color: Color(0xFF8f94fb),
-                        //   margin: EdgeInsets.symmetric(
-                        //       horizontal: 50, vertical: 20),
-                        //   child: ListTile(
-                        //     title: Text(
-                        //       "Pick Date (YYYY-MM-DD) \n ",
-                        //       textAlign: TextAlign.center,
-                        //     ),
-                        //     subtitle: Text(
-                        //       "Current Date: ${_eventDate.year} - ${_eventDate.month} - ${_eventDate.day}",
-                        //       style: TextStyle(fontSize: 16),
-                        //       textAlign: TextAlign.justify,
-                        //     ),
-                        //     onTap: () async {
-                        //       DateTime picked = await showDatePicker(
-                        //         context: context,
-                        //         initialDate: _eventDate,
-                        //         firstDate: DateTime(_eventDate.year - 5),
-                        //         lastDate: DateTime(_eventDate.year + 5),
-                        //       );
-                        //       if (picked != null) {
-                        //         setState(() {
-                        //           _eventDate = picked;
-                        //         });
-                        //       }
-                        //     },
-                        //   ),
-                        // ),
-                        // SizedBox(height: 10.0),
+                        
                         processing
                             ? Center(child: CircularProgressIndicator())
                             : Padding(
@@ -218,20 +189,29 @@ class _RhapsodyRecordState extends State<RhapsodyRecord> {
                                   color: Colors.amberAccent,
                                   onPressed: () async {
                                     if (_formKey.currentState.validate()) {
-                                      processing = true;
+                                     setState(() {
+                                        processing = true;
+                                      });
                                       await _firebaseUserRhapsodyDataRepository
                                           .addUserRhapsodyData(
                                         UserRhapsodyModel(
                                             title: titleController.text,
                                             note: noteController.text,
                                             eventDate: DateTime.now()),
-                                      );
-
-                                      Navigator.pop(context);
+                                      ).then((value){
+ Navigator.pop(context);
                                       setState(() {
-                                        processing = false;
+                                        Future.delayed(Duration(seconds: 4)).then((value) =>  processing = false);
                                       });
+                                      Navigator.pop(context);
+                                    }).catchError((e){
+Navigator.pushNamed(context, '/errorPage');
+                                    });
+                                      
+
+                             
                                     }
+                                     
                                   },
                                   icon: Icon(
                                     Icons.save,
