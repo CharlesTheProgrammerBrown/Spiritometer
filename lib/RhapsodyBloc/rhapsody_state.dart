@@ -29,6 +29,18 @@ class RhapsodyLoaded extends RhapsodyState {
       ];
 }
 
+class RhapsodyToEditLoaded extends RhapsodyState{
+  final UserRhapsodyModel rhapsodyToEditModel;
+
+  RhapsodyToEditLoaded({this.rhapsodyToEditModel});
+
+  @override
+  List<Object> get props => [
+        rhapsodyToEditModel,
+      
+      ];
+}
+
 class RhapsodyLoadFailed extends RhapsodyState {}
 
 class RhapsodySaveFailed extends RhapsodyState {
