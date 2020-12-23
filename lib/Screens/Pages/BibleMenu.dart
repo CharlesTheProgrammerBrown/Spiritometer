@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:spiritometer/Screens/Pages/ListBibleMessages.dart';
 
 class BibleMenu extends StatefulWidget {
   @override
@@ -95,6 +96,14 @@ class _BibleMenuState extends State<BibleMenu> {
                           Card(
                             elevation: 3.0,
                             child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ListBibleMessages(),
+                                  ),
+                                );
+                              },
                               splashColor: Colors.purple,
                               child: Image(
                                 fit: BoxFit.fill,
@@ -131,8 +140,6 @@ class _BibleMenuState extends State<BibleMenu> {
                           ),
                         ]),
                   ),
-                  
-                  
                 ],
               ),
             ),
@@ -152,31 +159,35 @@ class BibleMessageDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.55,
-                        child: Container(
-          
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: 400,
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                trailing: Icon(Icons.expand_more, color: Colors.black,),
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage(
-                      "assets/images/RhapsodyBibleLogo.jpg"),
-                ),
-                title: Text("Recreate Your World With Your Words",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
-                subtitle: Text(
-                  "Genesis 1:2-3",
-                  style: TextStyle(
-                    fontFamily: "CentraleSansRegular",
-                    fontSize: 16,
-                  ),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: 400,
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              trailing: Icon(
+                Icons.expand_more,
+                color: Colors.black,
+              ),
+              leading: CircleAvatar(
+                backgroundImage:
+                    AssetImage("assets/images/RhapsodyBibleLogo.jpg"),
+              ),
+              title: Text(
+                "Recreate Your World With Your Words",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              subtitle: Text(
+                "Genesis 1:2-3",
+                style: TextStyle(
+                  fontFamily: "CentraleSansRegular",
+                  fontSize: 16,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
