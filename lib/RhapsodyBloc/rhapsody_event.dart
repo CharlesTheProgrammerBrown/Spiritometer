@@ -34,6 +34,17 @@ class RhapsodyDeletedEvent extends RhapsodyEvent{
   String toString() => 'RhapsodyDeletedEvent { rhapsody: $rhapsody }';
 }
 
+class EditRhapsodyEvent extends RhapsodyEvent{
+  final UserRhapsodyModel updatedRhapsody;
+
+  EditRhapsodyEvent({this.updatedRhapsody});
+
+  @override
+  List<Object> get props => [updatedRhapsody];
+
+    @override
+  String toString() => 'RhapsodyUpdatedEvent { rhapsody: $updatedRhapsody }';
+}
 
 class RhapsodySavedEvent extends RhapsodyEvent {
   final String title;
